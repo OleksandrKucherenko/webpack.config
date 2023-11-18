@@ -1,5 +1,6 @@
 # output folders
 /dist
+/.cache
 
 # dependencies
 /node_modules
