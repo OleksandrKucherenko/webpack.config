@@ -18,3 +18,8 @@ Configure loaders for webpack. Enable typescript files support.
 
 What becomes easier or more difficult to do and any risks introduced by the change that will need to be mitigated.
 `src/**/*` files can be a mix of `*.{js,jsx}` and `*.{ts,tsx}` files.
+
+### References
+
+- https://github.com/TypeStrong/ts-loader
+-

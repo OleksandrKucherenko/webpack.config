@@ -1,7 +1,11 @@
 {
   "extends": "@tsconfig/node18/tsconfig.json",
   "compilerOptions": {
-    "resolveJsonModule": true /* Enables JSON imports */
+    "resolveJsonModule": true /* Enables JSON imports */,
+    "sourceMap": true /* Generates corresponding '.map' file */,
+    "lib": ["dom", "dom.iterable", "es2023", "esnext"] /* Specify library files to be included in the compilation. */,
+    "module": "node16",
+    "target": "es2022"
   },
   "ts-node": {
     "compilerOptions": {

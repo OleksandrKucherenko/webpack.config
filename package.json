@@ -19,6 +19,7 @@
     "cross-env": "^7.0.3",
     "debug": "^4.3.4",
     "glob": "^10.3.10",
+    "ts-loader": "^9.5.1",
     "ts-node": "^10.9.1",
     "type-fest": "^4.8.1",
     "typescript": "^5.2.2",
