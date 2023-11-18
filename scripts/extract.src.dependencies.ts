@@ -1,8 +1,9 @@
-import * as fs from "node:fs";
-import * as glob from "glob";
-import path from "node:path";
 import Debug from "debug";
+import * as glob from "glob";
+import * as fs from "node:fs";
+import path from "node:path";
 import type { PackageJson } from "type-fest";
+
 import packageJson from "../package.json";
 
 const debug = Debug("script:imports");

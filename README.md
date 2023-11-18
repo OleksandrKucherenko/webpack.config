@@ -9,19 +9,11 @@
 
 ## Steps
 
-### Configure Webpack on node JavaScript base
+### [0001-use-webpack-for-bundling](doc/adr/0001-use-webpack-for-bundling.md)
 
-- webpack 5 [Basic Setup](https://webpack.js.org/guides/getting-started/#basic-setup)
+### [0002-start-from-node-18-lts](doc/adr/0002-start-from-node-18-lts.md)
 
-### Configure Typescript in solution
-
-[Webpack Configuration](https://webpack.js.org/configuration/configuration-languages/)
-[Webpack & Typescript](https://webpack.js.org/guides/typescript/)
-[Webpack Integration](https://www.typescriptlang.org/docs/handbook/integrating-with-build-tools.html#webpack)
-
-- [x] Remove '@types/webpack' ref: https://webpack.js.org/blog/2020-10-10-webpack-5-release/#typescript-typings
-- [x] Examine Project: https://github.com/hungtcs-lab/webpack-typescript-starter
-- [x] https://github.com/tsconfig/bases
+### [0003-typescript-enabled-solution](doc/adr/0003-typescript-enabled-solution.md)
 
 ```bash
 # test typescript configuration
