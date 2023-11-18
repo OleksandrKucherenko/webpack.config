@@ -1,0 +1,5 @@
+# output folders
+/dist
+
+# dependencies
+/node_modules
