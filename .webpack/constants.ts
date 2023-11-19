@@ -8,3 +8,5 @@ export const ENTRY_FILE = "./src/index.tsx";
 
 export const CACHE_DIRECTORY = ".cache";
 export const CACHE_DIR = path.resolve(__dirname, "..", CACHE_DIRECTORY);
+
+export const TEMPLATE_FILE = path.resolve(__dirname, "..", "public/index.html");

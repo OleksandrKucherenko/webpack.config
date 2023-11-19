@@ -5,7 +5,8 @@
     "sourceMap": true /* Generates corresponding '.map' file */,
     "lib": ["dom", "dom.iterable", "es2023", "esnext"] /* Specify library files to be included in the compilation. */,
     "module": "node16",
-    "target": "es2022"
+    "target": "es2022",
+    "jsx": "react-jsx"
   },
   "ts-node": {
     "compilerOptions": {

@@ -36,6 +36,8 @@ const configuration: webpack.Configuration = {
   plugins: [
     new HtmlWebpackPlugin({
       title: "Caching Enabled",
+      inject: true,
+      template: vars.TEMPLATE_FILE,
     }),
   ],
   optimization: {

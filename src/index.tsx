@@ -1,9 +1,10 @@
-const component = () => {
-  const element = document.createElement("div");
+import React from "react";
+import reactDom from "react-dom";
 
-  element.innerHTML = ["Hello", "webpack"].join(" ");
-
-  return element;
+const Component: React.FC = () => {
+  return <div style={{ padding: "30px" }}>Hello webpack with React</div>;
 };
 
-document.body.appendChild(component());
+const rootElement = document.getElementById("root");
+
+reactDom.render(<Component />, rootElement);
