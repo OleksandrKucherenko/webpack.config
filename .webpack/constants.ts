@@ -10,3 +10,6 @@ export const CACHE_DIRECTORY = ".cache";
 export const CACHE_DIR = path.resolve(__dirname, "..", CACHE_DIRECTORY);
 
 export const TEMPLATE_FILE = path.resolve(__dirname, "..", "public/index.html");
+
+export const INLINE_SIZE_LIMIT = 10 * 1024;
+export const MAX_INLINED_ASSET_SIZE = parseInt(process.env.IMAGE_INLINE_SIZE_LIMIT || `${INLINE_SIZE_LIMIT}`);

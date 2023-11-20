@@ -22,4 +22,4 @@ What becomes easier or more difficult to do and any risks introduced by the chan
 ### References
 
 - https://github.com/TypeStrong/ts-loader
--
+- https://www.npmjs.com/package/tsc-files (type-check only the staged files with lint-staged)

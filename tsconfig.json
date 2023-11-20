@@ -6,13 +6,14 @@
     "lib": ["dom", "dom.iterable", "es2023", "esnext"] /* Specify library files to be included in the compilation. */,
     "module": "node16",
     "target": "es2022",
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "typeRoots": ["./node_modules/@types", "./typings"]
   },
   "ts-node": {
     "compilerOptions": {
       "module": "CommonJS"
     }
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "typings/image.files.d.ts"],
   "exclude": ["node_modules", "dist", "webpack.config.ts"]
 }

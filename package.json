@@ -5,11 +5,13 @@
   "license": "MIT",
   "version": "1.0.0-alpha",
   "scripts": {
-    "build": "rimraf dist/ && cross-env NODE_ENV=production webpack --progress",
+    "cleanup:smart": "rimraf dist/*.js dist/*.txt",
+    "build": "cross-env NODE_ENV=production webpack --progress",
     "build:tsc": "cross-env NODE_ENV=production tsc --noEmit --listFiles --listEmittedFiles",
-    "build:tsc:config": "cross-env NODE_ENV=production tsc --showConfig",
     "start": "cross-env NODE_ENV=development webpack serve --open --progress",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "verify:tsc:config": "cross-env NODE_ENV=production tsc --showConfig",
+    "verify:webpack:config": "cross-env NODE_ENV=production webpack configtest"
   },
   "devDependencies": {
     "@tsconfig/node18": "^18.2.2",
