@@ -23,3 +23,13 @@ What becomes easier or more difficult to do and any risks introduced by the chan
 
 - https://github.com/TypeStrong/ts-loader
 - https://www.npmjs.com/package/tsc-files (type-check only the staged files with lint-staged)
+
+## Dependencies
+
+```json
+{
+  "devDependencies": {
+    "ts-loader": "^9.5.1"
+  }
+}
+```

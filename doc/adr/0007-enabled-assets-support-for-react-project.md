@@ -10,7 +10,6 @@ Accepted
 
 For project required support of different images of different types:
 
-- [x] SVG,
 - [x] PNG,
 - [x] WEBP,
 - [x] BMP,
@@ -18,7 +17,6 @@ For project required support of different images of different types:
 - [x] GIF,
 - [x] JPG,
 - [x] JPEG
-- etc...
 
 ## Decision
 
@@ -35,10 +33,6 @@ Configure webpack Assets Management
 ```
 
 - BMP, GIF, JPG, PNG ref: https://github.com/facebook/create-react-app/blob/v5.0.1/packages/react-scripts/config/webpack.config.js#L376-L387
-- SVG support, ref: https://github.com/facebook/create-react-app/blob/v5.0.1/packages/react-scripts/config/webpack.config.js#L388-L413
-
-  - @svgr/webpack
-  - file-loader
 
 - Fallback to file-loader, ref: https://github.com/facebook/create-react-app/blob/v5.0.1/packages/react-scripts/config/webpack.config.js#L587-L599
 
@@ -49,7 +43,7 @@ Configure webpack Assets Management
 - To make webpack automatically decide which loader to use for assets left `type: "assets"`, refs:
   - https://webpack.js.org/guides/asset-modules/
 
-> `asset` automatically chooses between exporting a data URI and emitting a separate file. Previously achievable by using url-loader with asset size limit.
+> `type: "asset"` automatically chooses between exporting a data URI and emitting a separate file.
 
 - added `favicon.ico` to make html page loading clean (https://favicon.io/favicon-generator/)
 

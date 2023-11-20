@@ -20,6 +20,7 @@ Added 'html-webpack-plugin' to generate modified index.html.
 
 - Enabled optimization cache, split to chunks
 - Enabled persistent cache
+- Environment variables should invalidate the cache
 
 ### References
 
@@ -31,4 +32,14 @@ Added 'html-webpack-plugin' to generate modified index.html.
 - https://javascript.plainenglish.io/how-to-improve-webpack-performance-7637db26fa5f
 - https://medium.com/smallcase-engineering/migrating-to-webpack-5-4afb3622f43a
 - https://github.com/webpack-contrib/thread-loader
--
+
+## Dependencies
+
+```json
+{
+  "devDependencies": {
+    "html-webpack-plugin": "^5.5.3",
+    "rimraf": "^5.0.5"
+  }
+}
+```

@@ -19,3 +19,16 @@ start from scratch, based only on tools documentation, collect as much as possib
 ## Consequences
 
 configuration will require multiple iterations, before it becomes a replacer for webpack 4.xx config
+
+## Dependencies
+
+```json
+{
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
+  }
+}
+```

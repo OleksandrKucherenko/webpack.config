@@ -18,3 +18,5 @@ Added tools:
 - Volta, Pin Node 18.18.2 LTS
 
 ## Consequences
+
+`.envrc` file is added to the project, to enable Node 18.18.2 LTS for the project.

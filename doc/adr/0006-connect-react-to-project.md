@@ -30,3 +30,18 @@ Enabled JSX support for typescript compiler.
 
 - https://react.dev/learn/add-react-to-an-existing-project
 - https://react.dev/learn/typescript
+
+## Dependencies
+
+```json
+{
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.70",
+    "@types/react-dom": "^17.0.23"
+  }
+}
+```

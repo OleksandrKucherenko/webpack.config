@@ -50,6 +50,24 @@ ref: https://webpack.js.org/configuration/configuration-languages/#typescript
 
 resolution was found by [link](https://webpack.js.org/api/cli/#troubleshooting)
 
+## Dependencies
+
+```json
+{
+  "devDependencies": {
+    "@tsconfig/node18": "^18.2.2",
+    "@types/debug": "^4.1.12",
+    "@types/node": "> ^18.0.0 <19.0.0",
+    "@types/webpack-dev-server": "^4.7.2",
+    "debug": "^4.3.4",
+    "glob": "^10.3.10",
+    "ts-node": "^10.9.1",
+    "type-fest": "^4.8.1",
+    "typescript": "^5.2.2"
+  }
+}
+```
+
 ### References
 
 - https://github.com/webpack/webpack-cli/issues/2458#issuecomment-1157987399
