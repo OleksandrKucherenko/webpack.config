@@ -66,6 +66,27 @@ export const configuration: webpack.Configuration = {
               dataUrlCondition: { maxSize: vars.MAX_INLINED_ASSET_SIZE },
             },
           },
+          // Fonts
+          {
+            test: /\.(woff|woff2|eot|ttf|otf)$/i,
+            type: "asset",
+          },
+          // SVG as React components and as assets
+          {
+            test: /\.svg$/i,
+            type: "asset",
+            issuer: /\.[jt]sx?$/,
+            // *.svg?url
+            resourceQuery: /url/,
+          },
+          {
+            test: /\.svg$/i,
+            issuer: /\.[jt]sx?$/,
+            // exclude react component if *.svg?url
+            resourceQuery: { not: [/url/] },
+            use: ["@svgr/webpack"],
+          },
+          // TypeScript react files
           {
             test: /\.([cm]?ts|tsx)$/,
             use: "ts-loader",

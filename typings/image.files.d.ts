@@ -41,7 +41,10 @@ declare module "*.svg" {
   import * as React from "react";
 
   export const ReactComponent: React.SFC<React.SVGProps<SVGSVGElement>>;
+  export default ReactComponent;
+}
 
+declare module "*.svg?url" {
   const src: string;
   export default src;
 }
