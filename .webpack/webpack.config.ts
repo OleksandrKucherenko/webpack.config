@@ -3,6 +3,8 @@ import "webpack-dev-server";
 import Debug from "debug";
 
 import HtmlWebpackPlugin from "html-webpack-plugin";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
 
 import * as vars from "./constants";
 import { createEnvironmentHash } from "./utils";
@@ -85,6 +87,16 @@ export const configWithPreset = (preset: Preset = KnownPresets.development): web
             resourceQuery: { not: [/url/] },
             use: ["@svgr/webpack"],
           },
+          // CSS files
+          {
+            test: /\.css$/i,
+            use: [
+              // TODO (olku): enable style-loader for development & mini-css-extract-plugin for production
+              { loader: MiniCssExtractPlugin.loader, options: { ...preset.miniCssExtractLoaderOptions } },
+              null /*"style-loader"*/,
+              "css-loader",
+            ].filter(Boolean),
+          },
           // TypeScript react files: TSX, TS, etc.
           {
             test: /\.([cm]?ts|tsx)$/,
@@ -111,6 +123,11 @@ export const configWithPreset = (preset: Preset = KnownPresets.development): web
     ],
   },
   plugins: [
+    new MiniCssExtractPlugin({
+      filename: "static/css/[name].[contenthash].css",
+      chunkFilename: "static/css/[name].[contenthash].chunk.css",
+      ...preset.miniCssExtractPluginOptions,
+    }),
     new HtmlWebpackPlugin({
       title: "Caching Enabled",
       inject: true,
@@ -131,6 +148,14 @@ export const configWithPreset = (preset: Preset = KnownPresets.development): web
         },
       },
     },
+    /* Minimize files. */
+    minimize: true,
+    minimizer: [
+      new CssMinimizerPlugin({
+        parallel: true,
+        ...preset.cssMinimizerPluginOptions,
+      }),
+    ],
   },
   cache: {
     type: "filesystem",

@@ -33,6 +33,7 @@ Added 'html-webpack-plugin' to generate modified index.html.
 - https://medium.com/smallcase-engineering/migrating-to-webpack-5-4afb3622f43a
 - https://github.com/webpack-contrib/thread-loader
 - https://github.com/TypeStrong/ts-loader#experimentalfilecaching
+- https://webpack.js.org/plugins/html-webpack-plugin/
 
 ## Dependencies
 

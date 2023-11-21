@@ -4,6 +4,9 @@ export type Preset = {
   name: NodeEnv;
   tsLoaderOptions?: any;
   htmlPluginOptions?: any;
+  miniCssExtractPluginOptions?: any;
+  miniCssExtractLoaderOptions?: any;
+  cssMinimizerPluginOptions?: any;
 };
 
 export type Presets = Record<NodeEnv, Preset>;
@@ -25,6 +28,9 @@ const htmlPluginMinifyOptions = {
 
 const commonPreset: Partial<Preset> = {
   // TODO (olku): add repeated properties for all presets
+  tsLoaderOptions: { experimentalFileCaching: true },
+  htmlPluginOptions: htmlPluginMinifyOptions,
+  miniCssExtractPluginOptions: {},
 };
 
 export const KnownPresets: Presets = {
@@ -34,8 +40,6 @@ export const KnownPresets: Presets = {
   },
   production: {
     ...commonPreset,
-    tsLoaderOptions: { experimentalFileCaching: true },
-    htmlPluginOptions: htmlPluginMinifyOptions,
     name: "production",
   },
   test: {
