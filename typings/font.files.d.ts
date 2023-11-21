@@ -17,12 +17,12 @@ declare module "*.eot" {
   export default src;
 }
 
-declare module "*.ttf" {
+declare module "*.otf" {
   const src: string;
   export default src;
 }
 
-declare module "*.otf" {
+declare module "*.ttf" {
   const src: string;
   export default src;
 }

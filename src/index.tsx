@@ -3,7 +3,7 @@ import reactDom from "react-dom";
 import img1 from "./sample-01.avif";
 import img2 from "./sample-02-url.avif";
 import imgPng from "./sample-03.png";
-// import emoji from "./assets/fonts/NotoColorEmoji-Regular.ttf";
+import emoji from "./assets/fonts/NotoColorEmoji-Regular.ttf";
 import Pink from "./pink.svg";
 import pinkUrl from "./pink.svg?url";
 
@@ -39,13 +39,20 @@ const PicturesDemo = () => {
 };
 
 const Application: React.FC = () => {
-  // loadFont("emoji", emoji);
+  loadFont("emoji", emoji).finally(() => {
+    console.log("emoji font loaded");
+  });
 
   return (
     <>
+      {/* Web fonts */}
       <h1 style={{ padding: "30px", fontFamily: "Pacifico" }}>Hello webpack with React</h1>
-      <h2 style={{ fontFamily: "emoji" }}>AVIF Support</h2>
+      {/* Different image types support */}
+      <h2>AVIF Support</h2>
       <PicturesDemo />
+      {/* Custom Font emoji vs Default */}
+      <h2 style={{ fontFamily: "emoji" }}>🩷💀🫱🏿‍🫲🏻🌴🐢🐐🍄⚽🫧👑📸🪼👀🚨🏡🕊️🏆😻🌟🧿🍀🫶🏾🍜</h2>
+      <h2>🩷💀🫱🏿‍🫲🏻🌴🐢🐐🍄⚽🫧👑📸🪼👀🚨🏡🕊️🏆😻🌟🧿🍀🫶🏾🍜</h2>
     </>
   );
 };

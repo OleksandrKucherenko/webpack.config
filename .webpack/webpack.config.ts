@@ -25,6 +25,10 @@ export const configuration: webpack.Configuration = {
     compress: true,
     http2: false, // true - will work only with https
   },
+  // watch file changes
+  watchOptions: {
+    ignored: "**/node_modules",
+  },
   // Webpack noise constrained to errors and warnings
   stats: "errors-warnings",
   performance: {
@@ -70,6 +74,9 @@ export const configuration: webpack.Configuration = {
           {
             test: /\.(woff|woff2|eot|ttf|otf)$/i,
             type: "asset",
+            generator: {
+              filename: "static/fonts/[name].[hash][ext]",
+            },
           },
           // SVG as React components and as assets
           {
