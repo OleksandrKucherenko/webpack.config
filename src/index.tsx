@@ -1,11 +1,14 @@
 import React from "react";
 import reactDom from "react-dom";
-import img1 from "./sample-01.avif";
-import img2 from "./sample-02-url.avif";
-import imgPng from "./sample-03.png";
+
+import img1 from "./assets/images/sample-01.avif";
+import img2 from "./assets/images/sample-02-url.avif";
+import imgPng from "./assets/images/sample-03.png";
 import emoji from "./assets/fonts/NotoColorEmoji-Regular-subset.woff2";
-import Pink from "./pink.svg";
-import pinkUrl from "./pink.svg?url";
+import Pink from "./assets/images/pink.svg";
+import pinkUrl from "./assets/images/pink.svg?url";
+import "./normalize.css";
+import "./global.css";
 
 export const loadFont = async (fontFamily: string, url: string): Promise<void> => {
   const font = new FontFace(fontFamily, `local(${fontFamily}), url(${url})`);
@@ -46,7 +49,7 @@ const Application: React.FC = () => {
   return (
     <>
       {/* Web fonts */}
-      <h1 style={{ padding: "30px", fontFamily: "Pacifico" }}>Hello webpack with React</h1>
+      <h1 style={{ padding: "0px", fontFamily: "Pacifico" }}>Hello webpack with React</h1>
       {/* Different image types support */}
       <h2>AVIF Support</h2>
       <PicturesDemo />
