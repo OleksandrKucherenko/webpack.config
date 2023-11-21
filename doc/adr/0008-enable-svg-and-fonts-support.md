@@ -1,4 +1,4 @@
-# 8. Enable SVG images support
+# 8. Enable SVG and Fonts support
 
 Date: 2023-11-20
 
@@ -35,6 +35,9 @@ declare module "*.svg?url" {
 
 - For making fonts work fine, ts-loader should properly load types definitions from `typings/*.d.ts` files
 - Font will be extracted by webpack to `dist/static/fonts` folder
+- used Google Fonts for testing:
+  - ref: https://fonts.google.com/noto/specimen/Noto+Color+Emoji
+  - ref: https://fonts.google.com/specimen/Pacifico
 
 ### Known issues
 
@@ -58,6 +61,7 @@ Possible solutions:
 - https://react-svgr.com/docs/webpack/
 - https://github.com/manuelbieh/react-ssr-setup
 - https://www.npmjs.com/package/fontmin-webpack
+- https://www.robinwieruch.de/webpack-font/
 
 ## Dependencies
 

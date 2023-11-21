@@ -1,4 +1,18 @@
-## Webpack.config
+# Webpack.config
+
+- [Webpack.config](#webpackconfig)
+  - [Tools](#tools)
+    - [Dev Environment Setup](#dev-environment-setup)
+  - [Steps](#steps)
+    - [0001-use-webpack-for-bundling](#0001-use-webpack-for-bundling)
+    - [0002-start-from-node-18-lts](#0002-start-from-node-18-lts)
+    - [0003-typescript-enabled-solution](#0003-typescript-enabled-solution)
+    - [0004-enable-typescript-support-in-webpack](#0004-enable-typescript-support-in-webpack)
+    - [0005-enable-caching-for-webpack](#0005-enable-caching-for-webpack)
+    - [0006-connect-react-to-project](#0006-connect-react-to-project)
+    - [0007-enabled-assets-support-for-react-project](#0007-enabled-assets-support-for-react-project)
+    - [0008-enable-svg-and-fonts-support](#0008-enable-svg-and-fonts-support)
+    - [0009-enable-css-styles-support](#0009-enable-css-styles-support)
 
 ## Tools
 
@@ -9,16 +23,20 @@
 
 ## Steps
 
-### [0001-use-webpack-for-bundling](doc/adr/0001-use-webpack-for-bundling.md)
+### [0001-use-webpack-for-bundling](./doc/adr/0001-use-webpack-for-bundling.md)
 
-### [0002-start-from-node-18-lts](doc/adr/0002-start-from-node-18-lts.md)
+### [0002-start-from-node-18-lts](./doc/adr/0002-start-from-node-18-lts.md)
 
-### [0003-typescript-enabled-solution](doc/adr/0003-typescript-enabled-solution.md)
+### [0003-typescript-enabled-solution](./doc/adr/0003-typescript-enabled-solution.md)
 
-```bash
-# test typescript configuration
-yarn ts-node scripts/extract.src.dependencies.ts
+### [0004-enable-typescript-support-in-webpack](./doc/adr/0004-enable-typescript-support-in-webpack.md)
 
-# test webpack configuration
-yarn build
-```
+### [0005-enable-caching-for-webpack](./doc/adr/0005-enable-caching-for-webpack.md)
+
+### [0006-connect-react-to-project](./doc/adr/0006-connect-react-to-project.md)
+
+### [0007-enabled-assets-support-for-react-project](./doc/adr/0007-enabled-assets-support-for-react-project.md)
+
+### [0008-enable-svg-and-fonts-support](./doc/adr/0008-enable-svg-and-fonts-support.md)
+
+### [0009-enable-css-styles-support](./doc/adr/0009-enable-css-styles-support.md)

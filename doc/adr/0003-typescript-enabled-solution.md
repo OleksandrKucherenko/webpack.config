@@ -50,6 +50,14 @@ ref: https://webpack.js.org/configuration/configuration-languages/#typescript
 
 resolution was found by [link](https://webpack.js.org/api/cli/#troubleshooting)
 
+```bash
+# test typescript configuration
+yarn ts-node scripts/extract.src.dependencies.ts
+
+# test webpack configuration
+yarn build
+```
+
 ## Dependencies
 
 ```json
