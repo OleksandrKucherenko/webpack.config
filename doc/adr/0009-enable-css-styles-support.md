@@ -18,3 +18,8 @@ React App should be able to use CSS styles. we need support of several CSS relat
 ## Decision
 
 ## Consequences
+
+### References
+
+- https://huantao.medium.com/how-to-host-fonts-and-icons-locally-with-webpack-f5e3d0704bd4
+-

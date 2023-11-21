@@ -6,13 +6,14 @@ import HtmlWebpackPlugin from "html-webpack-plugin";
 
 import * as vars from "./constants";
 import { createEnvironmentHash } from "./utils";
+import { KnownPresets, type Preset } from "./presets";
 
 const debug = Debug("webpack:config");
 
 // TODO (olku): compute object with env variables from process.env
 const env = {};
 
-export const configuration: webpack.Configuration = {
+export const configWithPreset = (preset: Preset = KnownPresets.development): webpack.Configuration => ({
   entry: vars.ENTRY_FILE,
   output: {
     path: vars.OUTPUT_DIR,
@@ -34,7 +35,8 @@ export const configuration: webpack.Configuration = {
   performance: {
     maxAssetSize: 4 * 1024 * 1024, // 4MB
     maxEntrypointSize: 1 * 1024 * 1024, // 1MB
-    // hints: "error" /* Uncomment to raise error during compilation if we reach the size limits */,
+    /* Uncomment to raise error during compilation if we reach the size limits */
+    // hints: "error",
   },
   infrastructureLogging: { level: "none" },
   devtool: "eval" /* selected the fastest, ref: https://webpack.js.org/configuration/devtool/#devtool */,
@@ -51,26 +53,15 @@ export const configuration: webpack.Configuration = {
     rules: [
       {
         oneOf: [
-          // TODO: Merge this config once `image/avif` is in the mime-db, ref: https://github.com/jshttp/mime-db
+          // Regular images: AVIF, BPM, GIF, JPEG, PNG, WEBP
           {
-            test: [/\.avif$/],
-            type: "asset",
-            // mimetype: "image/avif",
-            parser: {
-              dataUrlCondition: { maxSize: vars.MAX_INLINED_ASSET_SIZE },
-            },
-          },
-          // "url" loader works like "file" loader except that it embeds assets
-          // smaller than specified limit in bytes as data URLs to avoid requests.
-          // A missing `test` is equivalent to a match.
-          {
-            test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/, /\.webp$/],
+            test: [/\.avif$/, /\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/, /\.webp$/],
             type: "asset",
             parser: {
               dataUrlCondition: { maxSize: vars.MAX_INLINED_ASSET_SIZE },
             },
           },
-          // Fonts
+          // Fonts: WOFF, WOFF2, EOT, TTF, OTF
           {
             test: /\.(woff|woff2|eot|ttf|otf)$/i,
             type: "asset",
@@ -78,7 +69,7 @@ export const configuration: webpack.Configuration = {
               filename: "static/fonts/[name].[hash][ext]",
             },
           },
-          // SVG as React components and as assets
+          // SVG as assets
           {
             test: /\.svg$/i,
             type: "asset",
@@ -86,6 +77,7 @@ export const configuration: webpack.Configuration = {
             // *.svg?url
             resourceQuery: /url/,
           },
+          // SVG as React components
           {
             test: /\.svg$/i,
             issuer: /\.[jt]sx?$/,
@@ -93,10 +85,10 @@ export const configuration: webpack.Configuration = {
             resourceQuery: { not: [/url/] },
             use: ["@svgr/webpack"],
           },
-          // TypeScript react files
+          // TypeScript react files: TSX, TS, etc.
           {
             test: /\.([cm]?ts|tsx)$/,
-            use: "ts-loader",
+            use: [{ loader: "ts-loader", options: preset.tsLoaderOptions }],
             exclude: /node_modules/,
           },
           // "file" loader makes sure those assets get served by WebpackDevServer.
@@ -112,6 +104,8 @@ export const configuration: webpack.Configuration = {
             exclude: [/^$/, /\.(js|mjs|jsx|ts|tsx)$/, /\.html$/, /\.json$/],
             type: "asset/resource",
           },
+          // ** STOP ** Are you adding a new loader?
+          // Make sure to add the new loader(s) before the "file" loader.
         ],
       },
     ],
@@ -121,8 +115,10 @@ export const configuration: webpack.Configuration = {
       title: "Caching Enabled",
       inject: true,
       template: vars.TEMPLATE_FILE,
+      ...preset.htmlPluginOptions,
     }),
   ],
+  // persistent caching & chunk optimization
   optimization: {
     moduleIds: "deterministic",
     runtimeChunk: "single",
@@ -144,21 +140,18 @@ export const configuration: webpack.Configuration = {
     },
     cacheDirectory: vars.CACHE_DIR,
   },
-};
-
-export const reportImportantThings = () => {
-  // Dump important configuration values
-  debug('output directory: "%s"', vars.OUTPUT_DIR);
-  debug('cache directory: "%s"', vars.CACHE_DIR);
-  debug("inlining images up to %s bytes", vars.MAX_INLINED_ASSET_SIZE);
-};
+});
 
 // TODO (olku): which type should be used here?
 export const environmentConfiguration = (webpackEnv: string): webpack.Configuration => {
   const [isEnvDevelopment, isEnvProduction] = ["development", "production"].map((env) => webpackEnv === env);
-  reportImportantThings();
+  vars.report();
 
-  const newConfiguration = { ...configuration };
+  const { development, production, test } = KnownPresets;
+
+  const newConfiguration = {
+    ...configWithPreset(isEnvProduction ? production : isEnvDevelopment ? development : test),
+  };
 
   // TODO (olku): customize configuration based on webpackEnv (development, production, etc.)
 

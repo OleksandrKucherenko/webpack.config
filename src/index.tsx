@@ -3,7 +3,7 @@ import reactDom from "react-dom";
 import img1 from "./sample-01.avif";
 import img2 from "./sample-02-url.avif";
 import imgPng from "./sample-03.png";
-import emoji from "./assets/fonts/NotoColorEmoji-Regular.ttf";
+import emoji from "./assets/fonts/NotoColorEmoji-Regular-subset.woff2";
 import Pink from "./pink.svg";
 import pinkUrl from "./pink.svg?url";
 
