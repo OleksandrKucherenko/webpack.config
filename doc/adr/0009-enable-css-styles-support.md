@@ -38,6 +38,10 @@ curl -O https://raw.githubusercontent.com/necolas/normalize.css/master/normalize
 
 - `postcss-loader` is used for processing CSS with PostCSS. It is a tool for transforming styles with JS plugins. These plugins can lint your CSS, support variables and mixins, transpile future CSS syntax, inline images, and more.
 
+```bash
+yarn add --dev postcss-loader postcss postcss-flexbugs-fixes postcss-preset-env postcss-cli
+```
+
 ### References
 
 - https://huantao.medium.com/how-to-host-fonts-and-icons-locally-with-webpack-f5e3d0704bd4
@@ -47,6 +51,12 @@ curl -O https://raw.githubusercontent.com/necolas/normalize.css/master/normalize
 - https://webpack.js.org/plugins/css-minimizer-webpack-plugin/
 - https://stackoverflow.com/questions/40382842/cant-import-css-scss-modules-typescript-says-cannot-find-module
 - https://www.npmjs.com/package/typescript-plugin-css-modules
+- https://github.com/postcss/postcss
+  - https://webpack.js.org/loaders/postcss-loader/
+  - plugin: `postcss-flexbugs-fixes` is used for fixing flexbox issues
+  - plugin: `postcss-preset-env` is used for converting modern CSS into something most browsers can understand, determining the polyfills you need based on your targeted browsers or runtime environments
+  - https://github.com/postcss/postcss-cli
+  - https://github.com/postcss/postcss-load-config
 
 ## Dependencies
 
@@ -57,8 +67,15 @@ curl -O https://raw.githubusercontent.com/necolas/normalize.css/master/normalize
     "style-loader": "^3.3.3",
     "mini-css-extract-plugin": "^2.7.6",
     "css-minimizer-webpack-plugin": "^5.0.1",
+    // sass, scss
     "sass": "^1.69.5",
-    "sass-loader": "^13.3.2"
+    "sass-loader": "^13.3.2",
+    // postcss
+    "postcss": "^8.4.31",
+    "postcss-cli": "^10.1.0",
+    "postcss-flexbugs-fixes": "^5.0.2",
+    "postcss-loader": "^7.3.3",
+    "postcss-preset-env": "^9.3.0"
   }
 }
 ```

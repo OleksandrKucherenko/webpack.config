@@ -4,3 +4,11 @@
 
 # dependencies
 /node_modules
+
+# temporary files
+*.log
+*.orig
+*.tmp
+*.bak
+*.old
+*.pid

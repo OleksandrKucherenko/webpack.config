@@ -96,6 +96,7 @@ export const configWithPreset = (preset: Preset = KnownPresets.development): web
               { loader: MiniCssExtractPlugin.loader, options: { ...preset.miniCssExtractLoaderOptions } },
               null /*"style-loader"*/,
               "css-loader",
+              { loader: "postcss-loader", options: { ...preset.postcssLoaderOptions } },
             ].filter(Boolean),
           },
           // SASS or SCSS files, ignore *.module.{scss,sass}
@@ -106,6 +107,7 @@ export const configWithPreset = (preset: Preset = KnownPresets.development): web
               { loader: MiniCssExtractPlugin.loader, options: { ...preset.miniCssExtractLoaderOptions } },
               null /*"style-loader"*/,
               "css-loader",
+              { loader: "postcss-loader", options: { ...preset.postcssLoaderOptions } },
               "sass-loader",
             ].filter(Boolean),
           },
@@ -115,14 +117,8 @@ export const configWithPreset = (preset: Preset = KnownPresets.development): web
             use: [
               { loader: MiniCssExtractPlugin.loader, options: { ...preset.miniCssExtractLoaderOptions } },
               null /*"style-loader"*/,
-              {
-                loader: "css-loader",
-                options: {
-                  modules: {
-                    localIdentName: "[path][name]__[local]--[hash:base64:5]",
-                  },
-                },
-              },
+              { loader: "css-loader", options: { ...preset.modulesCssLoaderOptions } },
+              { loader: "postcss-loader", options: { ...preset.postcssLoaderOptions } },
             ].filter(Boolean),
           },
           // Style modules, *.module.{scss,sass}
@@ -131,16 +127,10 @@ export const configWithPreset = (preset: Preset = KnownPresets.development): web
             use: [
               { loader: MiniCssExtractPlugin.loader, options: { ...preset.miniCssExtractLoaderOptions } },
               null /*"style-loader"*/,
-              {
-                loader: "css-loader",
-                options: {
-                  modules: {
-                    localIdentName: "[path][name]__[local]--[hash:base64:5]",
-                  },
-                },
-              },
+              { loader: "css-loader", options: { ...preset.modulesCssLoaderOptions } },
+              { loader: "postcss-loader", options: { ...preset.postcssLoaderOptions } },
               "sass-loader",
-            ],
+            ].filter(Boolean),
           },
           // TypeScript react files: TSX, TS, etc.
           {

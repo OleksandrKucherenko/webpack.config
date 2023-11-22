@@ -7,6 +7,12 @@ export type Preset = {
   miniCssExtractPluginOptions?: any;
   miniCssExtractLoaderOptions?: any;
   cssMinimizerPluginOptions?: any;
+  modulesCssLoaderOptions?: {
+    modules: any;
+  };
+  postcssLoaderOptions?: {
+    postcssOptions: any;
+  };
 };
 
 export type Presets = Record<NodeEnv, Preset>;
@@ -31,6 +37,31 @@ const commons: Partial<Preset> = {
   tsLoaderOptions: { experimentalFileCaching: true },
   htmlPluginOptions: htmlPluginMinifyOptions,
   miniCssExtractPluginOptions: {},
+  modulesCssLoaderOptions: {
+    modules: {
+      localIdentName: "[path][name]__[local]--[hash:base64:5]",
+    },
+  },
+  postcssLoaderOptions: {
+    postcssOptions: {
+      // TODO (olku): extract configuration to separate file postcss.config.json
+      plugins: [
+        "postcss-flexbugs-fixes",
+        [
+          "postcss-preset-env",
+          {
+            autoprefixer: {
+              flexbox: "no-2009",
+            },
+            stage: 3,
+            features: {
+              "custom-properties": false,
+            },
+          },
+        ],
+      ],
+    },
+  },
 };
 
 export const KnownPresets: Presets = {
