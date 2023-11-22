@@ -5,6 +5,7 @@ import Debug from "debug";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
+import { VanillaExtractPlugin } from "@vanilla-extract/webpack-plugin";
 
 import * as vars from "./constants";
 import { createEnvironmentHash } from "./utils";
@@ -87,6 +88,15 @@ export const configWithPreset = (preset: Preset = KnownPresets.development): web
             resourceQuery: { not: [/url/] },
             use: ["@svgr/webpack"],
           },
+          // Vanilla CSS files
+          {
+            test: /\.vanilla\.css$/i,
+            use: [
+              { loader: MiniCssExtractPlugin.loader, options: { ...preset.miniCssExtractLoaderOptions } },
+              // `url:false` - Required as image imports should be handled via JS/TS import statements
+              { loader: "css-loader", options: { url: false } },
+            ],
+          },
           // CSS files, ignore *.module.css
           {
             test: /\.css$/i,
@@ -158,7 +168,7 @@ export const configWithPreset = (preset: Preset = KnownPresets.development): web
     ],
   },
   plugins: [
-    new webpack.ProgressPlugin(),
+    new VanillaExtractPlugin(),
     new MiniCssExtractPlugin({
       filename: "static/css/[name].[contenthash].css",
       chunkFilename: "static/css/[name].[contenthash].chunk.css",

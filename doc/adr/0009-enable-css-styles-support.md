@@ -13,7 +13,7 @@ React App should be able to use CSS styles. we need support of several CSS relat
 - [x] CSS
 - [x] SASS, SCSS
 - [x] SASS, SCSS - modules
-- [ ] vanilla CSS modules
+- [x] vanilla CSS modules
 
 ## Decision
 
@@ -42,6 +42,8 @@ curl -O https://raw.githubusercontent.com/necolas/normalize.css/master/normalize
 yarn add --dev postcss-loader postcss postcss-flexbugs-fixes postcss-preset-env postcss-cli
 ```
 
+- [x] configure vanilla CSS modules support
+
 ### References
 
 - https://huantao.medium.com/how-to-host-fonts-and-icons-locally-with-webpack-f5e3d0704bd4
@@ -57,11 +59,17 @@ yarn add --dev postcss-loader postcss postcss-flexbugs-fixes postcss-preset-env 
   - plugin: `postcss-preset-env` is used for converting modern CSS into something most browsers can understand, determining the polyfills you need based on your targeted browsers or runtime environments
   - https://github.com/postcss/postcss-cli
   - https://github.com/postcss/postcss-load-config
+- https://vanilla-extract.style/
+  - https://vanilla-extract.style/documentation/integrations/webpack/
 
 ## Dependencies
 
 ```json
 {
+  "dependencies": {
+    // vanilla css modules
+    "@vanilla-extract/css": "^1.14.0"
+  },
   "devDependencies": {
     "css-loader": "^6.8.1",
     "style-loader": "^3.3.3",
@@ -75,7 +83,9 @@ yarn add --dev postcss-loader postcss postcss-flexbugs-fixes postcss-preset-env 
     "postcss-cli": "^10.1.0",
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-loader": "^7.3.3",
-    "postcss-preset-env": "^9.3.0"
+    "postcss-preset-env": "^9.3.0",
+    // vanilla css suport in webpack
+    "@vanilla-extract/webpack-plugin": "^2.3.1"
   }
 }
 ```
