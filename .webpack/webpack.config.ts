@@ -57,7 +57,7 @@ export const configWithPreset = (preset: Preset = KnownPresets.development): web
         oneOf: [
           // Regular images: AVIF, BPM, GIF, JPEG, PNG, WEBP
           {
-            test: [/\.avif$/, /\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/, /\.webp$/],
+            test: [/\.avif$/i, /\.bmp$/i, /\.gif$/i, /\.jpe?g$/i, /\.png$/i, /\.webp$/i],
             type: "asset",
             parser: {
               dataUrlCondition: { maxSize: vars.MAX_INLINED_ASSET_SIZE },
@@ -75,27 +75,72 @@ export const configWithPreset = (preset: Preset = KnownPresets.development): web
           {
             test: /\.svg$/i,
             type: "asset",
-            issuer: /\.[jt]sx?$/,
+            issuer: /\.[jt]sx?$/i,
             // *.svg?url
             resourceQuery: /url/,
           },
           // SVG as React components
           {
             test: /\.svg$/i,
-            issuer: /\.[jt]sx?$/,
+            issuer: /\.[jt]sx?$/i,
             // exclude react component if *.svg?url
             resourceQuery: { not: [/url/] },
             use: ["@svgr/webpack"],
           },
-          // CSS files
+          // CSS files, ignore *.module.css
           {
             test: /\.css$/i,
+            exclude: /\.module\.css$/i,
             use: [
               // TODO (olku): enable style-loader for development & mini-css-extract-plugin for production
               { loader: MiniCssExtractPlugin.loader, options: { ...preset.miniCssExtractLoaderOptions } },
               null /*"style-loader"*/,
               "css-loader",
             ].filter(Boolean),
+          },
+          // SASS or SCSS files, ignore *.module.{scss,sass}
+          {
+            test: /\.(scss|sass)$/i,
+            exclude: /\.module\.(scss|sass)$/i,
+            use: [
+              { loader: MiniCssExtractPlugin.loader, options: { ...preset.miniCssExtractLoaderOptions } },
+              null /*"style-loader"*/,
+              "css-loader",
+              "sass-loader",
+            ].filter(Boolean),
+          },
+          // Style modules, *.module.css
+          {
+            test: /\.module\.css$/i,
+            use: [
+              { loader: MiniCssExtractPlugin.loader, options: { ...preset.miniCssExtractLoaderOptions } },
+              null /*"style-loader"*/,
+              {
+                loader: "css-loader",
+                options: {
+                  modules: {
+                    localIdentName: "[path][name]__[local]--[hash:base64:5]",
+                  },
+                },
+              },
+            ].filter(Boolean),
+          },
+          // Style modules, *.module.{scss,sass}
+          {
+            test: /\.module\.(scss|sass)$/i,
+            use: [
+              { loader: MiniCssExtractPlugin.loader, options: { ...preset.miniCssExtractLoaderOptions } },
+              null /*"style-loader"*/,
+              {
+                loader: "css-loader",
+                options: {
+                  modules: {
+                    localIdentName: "[path][name]__[local]--[hash:base64:5]",
+                  },
+                },
+              },
+              "sass-loader",
+            ],
           },
           // TypeScript react files: TSX, TS, etc.
           {
@@ -123,6 +168,7 @@ export const configWithPreset = (preset: Preset = KnownPresets.development): web
     ],
   },
   plugins: [
+    new webpack.ProgressPlugin(),
     new MiniCssExtractPlugin({
       filename: "static/css/[name].[contenthash].css",
       chunkFilename: "static/css/[name].[contenthash].chunk.css",

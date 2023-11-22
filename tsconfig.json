@@ -15,6 +15,6 @@
       "module": "CommonJS"
     }
   },
-  "include": ["src/**/*", "typings/*.d.ts"],
+  "include": ["src/**/*", "typings"],
   "exclude": ["node_modules", "dist", "webpack.config.ts"]
 }

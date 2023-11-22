@@ -26,8 +26,8 @@ const htmlPluginMinifyOptions = {
   },
 };
 
-const commonPreset: Partial<Preset> = {
-  // TODO (olku): add repeated properties for all presets
+// TODO (olku): add repeated properties for all presets
+const commons: Partial<Preset> = {
   tsLoaderOptions: { experimentalFileCaching: true },
   htmlPluginOptions: htmlPluginMinifyOptions,
   miniCssExtractPluginOptions: {},
@@ -35,15 +35,15 @@ const commonPreset: Partial<Preset> = {
 
 export const KnownPresets: Presets = {
   development: {
-    ...commonPreset,
+    ...commons,
     name: "development",
   },
   production: {
-    ...commonPreset,
+    ...commons,
     name: "production",
   },
   test: {
-    ...commonPreset,
+    ...commons,
     name: "test",
   },
 } as const;
