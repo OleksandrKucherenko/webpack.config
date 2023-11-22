@@ -6,6 +6,7 @@ import HtmlWebpackPlugin from "html-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
 import { VanillaExtractPlugin } from "@vanilla-extract/webpack-plugin";
+import SpeedMeasurePlugin from "speed-measure-webpack-plugin";
 
 import * as vars from "./constants";
 import { createEnvironmentHash } from "./utils";
@@ -213,20 +214,56 @@ export const configWithPreset = (preset: Preset = KnownPresets.development): web
   },
 });
 
+type Flatten<Type> = Type extends Array<infer Item> ? Item : Type;
+type IndexedPlugin = { index: number; plugin: Flatten<webpack.Configuration["plugins"]> };
+
+const omitPlugins = (configuration: webpack.Configuration, ...names: string[]): IndexedPlugin[] => {
+  const { plugins } = configuration;
+  if (!plugins) throw new Error("Plugins are not defined.");
+
+  const extracted = plugins
+    .map((plugin, index) => (names.includes(plugin?.constructor.name ?? "<skip>") ? { index, plugin } : null))
+    .filter(Boolean) as IndexedPlugin[];
+
+  return extracted ?? [];
+};
+
+const recoverPlugins = (configuration: webpack.Configuration, ...plugins: IndexedPlugin[]) => {
+  const { plugins: originalPlugins } = configuration;
+  if (!originalPlugins) throw new Error("Plugins are not defined.");
+
+  plugins.forEach(({ index, plugin }) => {
+    originalPlugins[index] = plugin;
+  });
+};
+
+const withSmpMeasuring = (configuration: webpack.Configuration) => {
+  // FIXME (olku): this is a hack/workaround to get the SMP plugin work.
+  // ref: https://github.com/stephencookdev/speed-measure-webpack-plugin/issues/167
+  const excludes = omitPlugins(configuration, "MiniCssExtractPlugin");
+
+  const smp = new SpeedMeasurePlugin({ disable: !process.env.MEASURE });
+  const withSmpMeasuring = smp.wrap(configuration);
+
+  recoverPlugins(withSmpMeasuring, ...excludes);
+
+  return withSmpMeasuring;
+};
+
 // TODO (olku): which type should be used here?
 export const environmentConfiguration = (webpackEnv: string): webpack.Configuration => {
   const [isEnvDevelopment, isEnvProduction] = ["development", "production"].map((env) => webpackEnv === env);
   vars.report();
 
   const { development, production, test } = KnownPresets;
+  const preset = isEnvProduction ? production : isEnvDevelopment ? development : test;
 
-  const newConfiguration = {
-    ...configWithPreset(isEnvProduction ? production : isEnvDevelopment ? development : test),
-  };
+  // compose new configuration based on preset
+  const newConfiguration = { ...configWithPreset(preset) };
 
   // TODO (olku): customize configuration based on webpackEnv (development, production, etc.)
 
-  return newConfiguration;
+  return withSmpMeasuring(newConfiguration);
 };
 
 export default environmentConfiguration;

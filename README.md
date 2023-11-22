@@ -13,6 +13,7 @@
     - [0007-enabled-assets-support-for-react-project](#0007-enabled-assets-support-for-react-project)
     - [0008-enable-svg-and-fonts-support](#0008-enable-svg-and-fonts-support)
     - [0009-enable-css-styles-support](#0009-enable-css-styles-support)
+    - [0010-collect-metrics-of-the-webpack-configuration](#0010-collect-metrics-of-the-webpack-configuration)
 
 ## Tools
 
@@ -40,3 +41,5 @@
 ### [0008-enable-svg-and-fonts-support](./doc/adr/0008-enable-svg-and-fonts-support.md)
 
 ### [0009-enable-css-styles-support](./doc/adr/0009-enable-css-styles-support.md)
+
+### [0010-collect-metrics-of-the-webpack-configuration](./doc/adr/0010-collect-metrics-of-the-webpack-configuration.md)
