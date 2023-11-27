@@ -6,11 +6,14 @@ import HtmlWebpackPlugin from "html-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
 import { VanillaExtractPlugin } from "@vanilla-extract/webpack-plugin";
-import SpeedMeasurePlugin from "speed-measure-webpack-plugin";
 
 import * as vars from "./constants";
+import { paths } from "./paths";
 import { createEnvironmentHash } from "./utils";
 import { KnownPresets, type Preset } from "./presets";
+import { withSmpMeasuring } from "./measuring";
+import { aliases } from "./aliases";
+import { chunkGroups } from "./chunks";
 
 const debug = Debug("webpack:config");
 
@@ -18,13 +21,13 @@ const debug = Debug("webpack:config");
 const env = {};
 
 export const configWithPreset = (preset: Preset = KnownPresets.development): webpack.Configuration => ({
-  entry: vars.ENTRY_FILE,
+  entry: paths.appIndexJs,
   output: {
-    path: vars.OUTPUT_DIR,
-    filename: vars.BUNDLE_OUTPUT_FILE_NAME,
-    assetModuleFilename: "static/media/[name].[hash][ext]",
+    path: paths.appBuild,
+    filename: vars.BUNDLE_OUTPUT_FILENAME,
+    assetModuleFilename: vars.BUNDLE_ASSETS_FILENAME,
     clean: true, // clean output directory before build
-    publicPath: "",
+    publicPath: paths.publicUrl,
   },
   devServer: {
     compress: true,
@@ -43,7 +46,8 @@ export const configWithPreset = (preset: Preset = KnownPresets.development): web
     // hints: "error",
   },
   infrastructureLogging: { level: "none" },
-  devtool: "eval" /* selected the fastest, ref: https://webpack.js.org/configuration/devtool/#devtool */,
+  /* selected the fastest, ref: https://webpack.js.org/configuration/devtool/#devtool */
+  devtool: "eval",
   resolve: {
     extensions: [".tsx", ".ts", ".jsx", ".js"],
     // Add support for TypeScripts fully qualified ESM imports.
@@ -51,6 +55,12 @@ export const configWithPreset = (preset: Preset = KnownPresets.development): web
       ".js": [".js", ".ts"],
       ".cjs": [".cjs", ".cts"],
       ".mjs": [".mjs", ".mts"],
+    },
+    alias: {
+      // Support React Native Web
+      // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
+      "react-native": "react-native-web",
+      ...aliases,
     },
   },
   module: {
@@ -70,7 +80,7 @@ export const configWithPreset = (preset: Preset = KnownPresets.development): web
             test: /\.(woff|woff2|eot|ttf|otf)$/i,
             type: "asset",
             generator: {
-              filename: "static/fonts/[name].[hash][ext]",
+              filename: vars.BUNDLE_FONTS_FILENAME,
             },
           },
           // SVG as assets
@@ -93,7 +103,10 @@ export const configWithPreset = (preset: Preset = KnownPresets.development): web
           {
             test: /\.vanilla\.css$/i,
             use: [
-              { loader: MiniCssExtractPlugin.loader, options: { ...preset.miniCssExtractLoaderOptions } },
+              {
+                loader: MiniCssExtractPlugin.loader,
+                options: { ...preset.miniCssExtractLoaderOptions },
+              },
               // `url:false` - Required as image imports should be handled via JS/TS import statements
               { loader: "css-loader", options: { url: false } },
             ],
@@ -104,7 +117,10 @@ export const configWithPreset = (preset: Preset = KnownPresets.development): web
             exclude: /\.module\.css$/i,
             use: [
               // TODO (olku): enable style-loader for development & mini-css-extract-plugin for production
-              { loader: MiniCssExtractPlugin.loader, options: { ...preset.miniCssExtractLoaderOptions } },
+              {
+                loader: MiniCssExtractPlugin.loader,
+                options: { ...preset.miniCssExtractLoaderOptions },
+              },
               null /*"style-loader"*/,
               "css-loader",
               { loader: "postcss-loader", options: { ...preset.postcssLoaderOptions } },
@@ -115,7 +131,10 @@ export const configWithPreset = (preset: Preset = KnownPresets.development): web
             test: /\.(scss|sass)$/i,
             exclude: /\.module\.(scss|sass)$/i,
             use: [
-              { loader: MiniCssExtractPlugin.loader, options: { ...preset.miniCssExtractLoaderOptions } },
+              {
+                loader: MiniCssExtractPlugin.loader,
+                options: { ...preset.miniCssExtractLoaderOptions },
+              },
               null /*"style-loader"*/,
               "css-loader",
               { loader: "postcss-loader", options: { ...preset.postcssLoaderOptions } },
@@ -126,7 +145,10 @@ export const configWithPreset = (preset: Preset = KnownPresets.development): web
           {
             test: /\.module\.css$/i,
             use: [
-              { loader: MiniCssExtractPlugin.loader, options: { ...preset.miniCssExtractLoaderOptions } },
+              {
+                loader: MiniCssExtractPlugin.loader,
+                options: { ...preset.miniCssExtractLoaderOptions },
+              },
               null /*"style-loader"*/,
               { loader: "css-loader", options: { ...preset.modulesCssLoaderOptions } },
               { loader: "postcss-loader", options: { ...preset.postcssLoaderOptions } },
@@ -136,7 +158,10 @@ export const configWithPreset = (preset: Preset = KnownPresets.development): web
           {
             test: /\.module\.(scss|sass)$/i,
             use: [
-              { loader: MiniCssExtractPlugin.loader, options: { ...preset.miniCssExtractLoaderOptions } },
+              {
+                loader: MiniCssExtractPlugin.loader,
+                options: { ...preset.miniCssExtractLoaderOptions },
+              },
               null /*"style-loader"*/,
               { loader: "css-loader", options: { ...preset.modulesCssLoaderOptions } },
               { loader: "postcss-loader", options: { ...preset.postcssLoaderOptions } },
@@ -145,9 +170,18 @@ export const configWithPreset = (preset: Preset = KnownPresets.development): web
           },
           // TypeScript react files: TSX, TS, etc.
           {
-            test: /\.([cm]?ts|tsx)$/,
-            use: [{ loader: "ts-loader", options: preset.tsLoaderOptions }],
-            exclude: /node_modules/,
+            test: /\.([cm]?js|jsx|ts|tsx)$/,
+            exclude: [/\.(test|spec)\.([cm]?ts|tsx)$/, /__tests__/, /__cypress__/, /node_modules/],
+            // use: [{ loader: 'ts-loader', options: preset.tsLoaderOptions }],
+            use: [
+              {
+                loader: "esbuild-loader",
+                options: {
+                  define: { "process.env.NODE_ENV": '"production"', ...env },
+                  ...preset.esbuildLoaderOptions,
+                },
+              },
+            ],
           },
           // "file" loader makes sure those assets get served by WebpackDevServer.
           // When you `import` an asset, you get its (virtual) filename.
@@ -169,16 +203,17 @@ export const configWithPreset = (preset: Preset = KnownPresets.development): web
     ],
   },
   plugins: [
+    new webpack.ProgressPlugin({ modulesCount: 10000 }),
+    // Makes some environment variables available to the JS code, for example:
+    // if (process.env.NODE_ENV === 'production') { ... }. See `./env.js`.
+    // It is absolutely essential that NODE_ENV is set to production
+    // during a production build.
+    // Otherwise React will be compiled in the very slow development mode.
+    new webpack.DefinePlugin(env.stringified),
     new VanillaExtractPlugin(),
-    new MiniCssExtractPlugin({
-      filename: "static/css/[name].[contenthash].css",
-      chunkFilename: "static/css/[name].[contenthash].chunk.css",
-      ...preset.miniCssExtractPluginOptions,
-    }),
+    new MiniCssExtractPlugin({ ...preset.miniCssExtractPluginOptions }),
     new HtmlWebpackPlugin({
-      title: "Caching Enabled",
-      inject: true,
-      template: vars.TEMPLATE_FILE,
+      template: paths.appHtml,
       ...preset.htmlPluginOptions,
     }),
   ],
@@ -187,13 +222,9 @@ export const configWithPreset = (preset: Preset = KnownPresets.development): web
     moduleIds: "deterministic",
     runtimeChunk: "single",
     splitChunks: {
-      cacheGroups: {
-        vendor: {
-          test: /[\\/]node_modules[\\/]/,
-          name: "vendors",
-          chunks: "all",
-        },
-      },
+      chunks: "all",
+      name: false,
+      cacheGroups: { ...chunkGroups },
     },
     /* Minimize files. */
     minimize: true,
@@ -210,59 +241,28 @@ export const configWithPreset = (preset: Preset = KnownPresets.development): web
     buildDependencies: {
       config: [__filename],
     },
-    cacheDirectory: vars.CACHE_DIR,
+    cacheDirectory: paths.appCache,
   },
 });
 
-type Flatten<Type> = Type extends Array<infer Item> ? Item : Type;
-type IndexedPlugin = { index: number; plugin: Flatten<webpack.Configuration["plugins"]> };
-
-const omitPlugins = (configuration: webpack.Configuration, ...names: string[]): IndexedPlugin[] => {
-  const { plugins } = configuration;
-  if (!plugins) throw new Error("Plugins are not defined.");
-
-  const extracted = plugins
-    .map((plugin, index) => (names.includes(plugin?.constructor.name ?? "<skip>") ? { index, plugin } : null))
-    .filter(Boolean) as IndexedPlugin[];
-
-  return extracted ?? [];
-};
-
-const recoverPlugins = (configuration: webpack.Configuration, ...plugins: IndexedPlugin[]) => {
-  const { plugins: originalPlugins } = configuration;
-  if (!originalPlugins) throw new Error("Plugins are not defined.");
-
-  plugins.forEach(({ index, plugin }) => {
-    originalPlugins[index] = plugin;
-  });
-};
-
-const withSmpMeasuring = (configuration: webpack.Configuration) => {
-  // FIXME (olku): this is a hack/workaround to get the SMP plugin work.
-  // ref: https://github.com/stephencookdev/speed-measure-webpack-plugin/issues/167
-  const excludes = omitPlugins(configuration, "MiniCssExtractPlugin");
-
-  const smp = new SpeedMeasurePlugin({ disable: !process.env.MEASURE });
-  const withSmpMeasuring = smp.wrap(configuration);
-
-  recoverPlugins(withSmpMeasuring, ...excludes);
-
-  return withSmpMeasuring;
-};
-
 // TODO (olku): which type should be used here?
 export const environmentConfiguration = (webpackEnv: string): webpack.Configuration => {
-  const [isEnvDevelopment, isEnvProduction] = ["development", "production"].map((env) => webpackEnv === env);
-  vars.report();
+  const [isEnvDevelopment, isEnvProduction] = vars.ENVIRONMENTS.map((env) => webpackEnv === env);
 
   const { development, production, test } = KnownPresets;
   const preset = isEnvProduction ? production : isEnvDevelopment ? development : test;
 
+  // dump configuration essentials to terminal
+  vars.report();
+
   // compose new configuration based on preset
   const newConfiguration = { ...configWithPreset(preset) };
+  const publicPath = isEnvProduction ? "/websites/service-center-portal/" : "/";
 
   // TODO (olku): customize configuration based on webpackEnv (development, production, etc.)
+  newConfiguration.output!.publicPath = publicPath;
 
+  // apply measurement plugin if enabled
   return withSmpMeasuring(newConfiguration);
 };
 

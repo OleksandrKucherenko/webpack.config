@@ -14,6 +14,7 @@
     - [0008-enable-svg-and-fonts-support](#0008-enable-svg-and-fonts-support)
     - [0009-enable-css-styles-support](#0009-enable-css-styles-support)
     - [0010-collect-metrics-of-the-webpack-configuration](#0010-collect-metrics-of-the-webpack-configuration)
+  - [TODO](#todo)
 
 ## Tools
 
@@ -43,3 +44,12 @@
 ### [0009-enable-css-styles-support](./doc/adr/0009-enable-css-styles-support.md)
 
 ### [0010-collect-metrics-of-the-webpack-configuration](./doc/adr/0010-collect-metrics-of-the-webpack-configuration.md)
+
+## TODO
+
+- [ ] support Jest
+- [ ] support Cypress
+- [ ] support EsLint
+- [ ] support Prettier
+- [ ] Inject environment variables `REACT_APP_*`
+- [ ] Define environment variables into webpack

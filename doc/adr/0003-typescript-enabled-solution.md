@@ -79,3 +79,6 @@ yarn build
 ### References
 
 - https://github.com/webpack/webpack-cli/issues/2458#issuecomment-1157987399
+- https://generator.tsconfigdemystified.com/ - `tsconfig.json` online generator
+- https://medium.com/extra-credit-by-guild/tsconfig-json-demystified-d8f333e578c1
+- https://compat-table.github.io/compat-table/es6/

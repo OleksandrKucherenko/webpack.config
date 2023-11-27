@@ -7,6 +7,7 @@
   "scripts": {
     "cleanup:smart": "rimraf dist/*.js dist/*.txt",
     "build": "cross-env NODE_ENV=production webpack --progress",
+    "build:tsc:log": "scripts/build_tsc_with_logs.sh",
     "measure:build": "cross-env NODE_ENV=production MEASURE=1 webpack",
     "build:tsc": "cross-env NODE_ENV=production tsc --noEmit --listFiles --listEmittedFiles",
     "start": "cross-env NODE_ENV=development webpack serve --open --progress",
@@ -28,6 +29,9 @@
     "css-loader": "^6.8.1",
     "css-minimizer-webpack-plugin": "^5.0.1",
     "debug": "^4.3.4",
+    "dotenv": "^16.3.1",
+    "dotenv-expand": "^10.0.0",
+    "esbuild-loader": "^4.0.2",
     "glob": "^10.3.10",
     "html-webpack-plugin": "^5.5.3",
     "mini-css-extract-plugin": "^2.7.6",

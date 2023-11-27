@@ -1,8 +1,9 @@
-export type NodeEnv = "development" | "production" | "test";
+import * as vars from "./constants";
 
 export type Preset = {
-  name: NodeEnv;
+  name: vars.NodeEnv;
   tsLoaderOptions?: any;
+  esbuildLoaderOptions?: any;
   htmlPluginOptions?: any;
   miniCssExtractPluginOptions?: any;
   miniCssExtractLoaderOptions?: any;
@@ -15,7 +16,7 @@ export type Preset = {
   };
 };
 
-export type Presets = Record<NodeEnv, Preset>;
+export type Presets = Record<vars.NodeEnv, Preset>;
 
 const htmlPluginMinifyOptions = {
   minify: {
@@ -35,11 +36,19 @@ const htmlPluginMinifyOptions = {
 // TODO (olku): add repeated properties for all presets
 const commons: Partial<Preset> = {
   tsLoaderOptions: { experimentalFileCaching: true },
-  htmlPluginOptions: htmlPluginMinifyOptions,
-  miniCssExtractPluginOptions: {},
+  esbuildLoaderOptions: { target: "es2015" },
+  htmlPluginOptions: {
+    ...htmlPluginMinifyOptions,
+    title: "Caching Enabled",
+    inject: true,
+  },
+  miniCssExtractPluginOptions: {
+    filename: vars.BUNDLE_CSS_FILENAME,
+    chunkFilename: vars.BUNDLE_CSS_CHUNK_FILENAME,
+  },
   modulesCssLoaderOptions: {
     modules: {
-      localIdentName: "[path][name]__[local]--[hash:base64:5]",
+      localIdentName: vars.BUNDLE_CSS_LOCAL_INDENT_NAME,
     },
   },
   postcssLoaderOptions: {
