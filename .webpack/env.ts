@@ -5,8 +5,7 @@ import dotenv from "dotenv";
 import dotenvExpand from "dotenv-expand";
 import { paths } from "./paths";
 import * as vars from "./constants";
-import { stringify } from "./utils";
-import type { LiteralUnion } from "type-fest";
+import { stringify, define } from "./utils";
 
 const debug = Debug("webpack:config");
 
@@ -85,11 +84,12 @@ const composeNodePath = () => {
   return (process.env.NODE_PATH = newNodePath);
 };
 
-type RawKeys = LiteralUnion<keyof KnownReactAppVariables | keyof ReturnType<typeof initialize>, string>;
+type RawKeys = keyof KnownReactAppVariables | keyof ReturnType<typeof initialize>;
 
-type ClientEnvironment = {
+export type ClientEnvironment = {
   raw: Partial<Record<RawKeys, string | undefined>>;
   stringified: ReturnType<typeof stringify>;
+  defined: ReturnType<typeof define>;
 };
 
 export const getClientEnvironment = (publicPath: string): ClientEnvironment => {
@@ -98,12 +98,15 @@ export const getClientEnvironment = (publicPath: string): ClientEnvironment => {
   const REACT_APP = /^REACT_APP_/i;
 
   const start = initialize(publicPath);
+  const filtered = Object.fromEntries(
+    Object.keys(process.env)
+      .filter((key) => REACT_APP.test(key))
+      .map((key) => [key, process.env[key]])
+  );
 
-  const raw = Object.keys(process.env)
-    .filter((key) => REACT_APP.test(key))
-    .reduce((env, key) => ({ ...env, [key]: process.env[key] }), start);
+  const raw = { ...filtered, ...start };
 
-  return { raw, stringified: stringify(raw) };
+  return { raw, stringified: stringify(raw), defined: define(raw) };
 };
 
 // critical path variable check

@@ -34,6 +34,7 @@ Added 'html-webpack-plugin' to generate modified index.html.
 - https://github.com/webpack-contrib/thread-loader
 - https://github.com/TypeStrong/ts-loader#experimentalfilecaching
 - https://webpack.js.org/plugins/html-webpack-plugin/
+- https://github.com/webpack/changelog-v5/blob/master/guides/persistent-caching.md#snapshot-types
 
 ## Dependencies
 

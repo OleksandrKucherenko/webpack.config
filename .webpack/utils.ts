@@ -1,6 +1,6 @@
 import { createHash } from "node:crypto";
 
-type Env = typeof process.env;
+type Env = Partial<Record<string, string | undefined | null>>;
 
 export const createEnvironmentHash = (env: Env) => {
   const hash = createHash("md5");
@@ -37,3 +37,6 @@ export const stringify = (raw: Record<string, string | undefined>): Stringified 
 
   return { "process.env": inJson };
 };
+
+export const define = (raw: Record<string, string | undefined>) =>
+  Object.keys(raw).reduce((env, key) => ({ ...env, [`process.env.${key}`]: JSON.stringify(raw[key]) }), {});

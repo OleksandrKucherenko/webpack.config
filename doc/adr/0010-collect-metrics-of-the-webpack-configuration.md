@@ -47,3 +47,4 @@ rm -rf .cache && yarn measure:build
 - https://www.npmjs.com/package/webpack-merge
   - https://github.com/survivejs-demos/webpack-demo/blob/dev/webpack.config.js
 - https://github.com/stephencookdev/speed-measure-webpack-plugin
+- https://www.npmjs.com/package/stats-webpack-plugin

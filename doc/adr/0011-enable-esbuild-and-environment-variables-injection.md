@@ -21,3 +21,8 @@ Enable `esbuild-loader` for webpack.
 - added `chunks` into separated file for easier configuration
 - added `measuring` into separated file for easier configuration
 - modified `presets` to use `esbuild-loader` instead of `ts-loader` and `babel-loader`
+
+### References
+
+- https://medium.com/dailyjs/inserting-variables-into-html-and-javascript-with-webpack-80f33625edc6
+-

@@ -14,13 +14,11 @@ import { KnownPresets, type Preset } from "./presets";
 import { withSmpMeasuring } from "./measuring";
 import { aliases } from "./aliases";
 import { chunkGroups } from "./chunks";
+import { getClientEnvironment, type ClientEnvironment } from "./env";
 
 const debug = Debug("webpack:config");
 
-// TODO (olku): compute object with env variables from process.env
-const env = {};
-
-export const configWithPreset = (preset: Preset = KnownPresets.development): webpack.Configuration => ({
+export const configWithPreset = (preset: Preset, env: ClientEnvironment): webpack.Configuration => ({
   entry: paths.appIndexJs,
   output: {
     path: paths.appBuild,
@@ -177,7 +175,7 @@ export const configWithPreset = (preset: Preset = KnownPresets.development): web
               {
                 loader: "esbuild-loader",
                 options: {
-                  define: { "process.env.NODE_ENV": '"production"', ...env },
+                  define: { ...env.defined },
                   ...preset.esbuildLoaderOptions,
                 },
               },
@@ -215,6 +213,7 @@ export const configWithPreset = (preset: Preset = KnownPresets.development): web
     new HtmlWebpackPlugin({
       template: paths.appHtml,
       ...preset.htmlPluginOptions,
+      env: { ...env.raw },
     }),
   ],
   // persistent caching & chunk optimization
@@ -237,11 +236,27 @@ export const configWithPreset = (preset: Preset = KnownPresets.development): web
   },
   cache: {
     type: "filesystem",
-    version: createEnvironmentHash(env),
+    version: createEnvironmentHash(env.raw),
     buildDependencies: {
       config: [__filename],
     },
     cacheDirectory: paths.appCache,
+  },
+  snapshot: {
+    managedPaths: [paths.appNodeModules],
+    immutablePaths: [],
+    buildDependencies: {
+      timestamp: true,
+    },
+    module: {
+      timestamp: true,
+    },
+    resolve: {
+      timestamp: true,
+    },
+    resolveBuildDependencies: {
+      timestamp: true,
+    },
   },
 });
 
@@ -252,12 +267,15 @@ export const environmentConfiguration = (webpackEnv: string): webpack.Configurat
   const { development, production, test } = KnownPresets;
   const preset = isEnvProduction ? production : isEnvDevelopment ? development : test;
 
+  // TODO (olku): compute object with env variables from process.env
+  const publicPath = isEnvProduction ? "/websites/service-center-portal/" : "/";
+  const env = getClientEnvironment(publicPath);
+
   // dump configuration essentials to terminal
   vars.report();
 
   // compose new configuration based on preset
-  const newConfiguration = { ...configWithPreset(preset) };
-  const publicPath = isEnvProduction ? "/websites/service-center-portal/" : "/";
+  const newConfiguration = { ...configWithPreset(preset, env) };
 
   // TODO (olku): customize configuration based on webpackEnv (development, production, etc.)
   newConfiguration.output!.publicPath = publicPath;
