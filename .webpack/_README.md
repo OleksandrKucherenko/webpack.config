@@ -1,9 +1,9 @@
 # Webpack Configuration
 
-## How its Structured?
+## How is it Structured?
 
 ```mermaid
-graph LR
+graph LR;
     Z[yarn package.json] --(scripts)--> A[Webpack-CLI]
     A --> B[.webpack/webpack.config.ts]
     A --> T[./tsconfig.json] --> T1[TypeScript/TSC configuration]
@@ -28,7 +28,7 @@ graph LR
 
 ## Global Variables
 
-TODO: add description of all global variables that webpack configuration uses during build process
+TODO: add a description of all global variables that webpack configuration uses during the build process
 
 | Variable                | Description                                                               |
 | ----------------------- | ------------------------------------------------------------------------- |
@@ -44,7 +44,7 @@ TODO: add description of all global variables that webpack configuration uses du
 
 ## Application Global Variables
 
-Variables that are accessible from React App code
+Variables that are accessible from the React App code
 
 | Variable                     | Description                                          |
 | ---------------------------- | ---------------------------------------------------- |
