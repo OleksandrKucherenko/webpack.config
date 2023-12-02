@@ -4,18 +4,17 @@
 
 ```mermaid
 graph LR;
-    Z[yarn package.json] --(scripts)--> A[Webpack-CLI]
+    Z[yarn package.json] --> A[Webpack-CLI]
     A --> B[.webpack/webpack.config.ts]
     A --> T[./tsconfig.json] --> T1[TypeScript/TSC configuration]
     B --> I[./paths.ts] --> H1[Extract/resolve path's for webpack]
     B --> D[./constants.ts] --> D1[Dirs, files, Path's, etc.]
     B --> H[./env.ts] --> H1[Extract Environment variables\nfor React App and Webpack]
     B --> C[./presets.ts] --> C1[Production, Development, Tests presets]
-    B --> E[./aliases.ts] --> E1[Aliases for paths, \nsearch paths components by shorter names]
+    B --> E[./aliases.ts] --> E1[Aliases for paths, \nsearch paths component \nby shorter names]
     B --> F[./chunks.ts] --> F1[Chunks definitions for webpack]
     B --> G[./measuring.ts] --> G1[Speed Measuring Plugin for webpack]
     B --> U[./utils.ts] --> U1[Utility functions]
-    %% extra connections
     C --> D
     D --> I
 ```
