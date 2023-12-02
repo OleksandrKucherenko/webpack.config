@@ -24,7 +24,7 @@
 
 ## Steps
 
-### [0001-use-webpack-for-bundling](./doc/adr/0001-use-webpack-for-bundling.md)
+### [0001-use-webpack-for-bundling](./doc/adr/0001-webpack-5-xx-clean-configuration.md)
 
 ### [0002-start-from-node-18-lts](./doc/adr/0002-start-from-node-18-lts.md)
 
