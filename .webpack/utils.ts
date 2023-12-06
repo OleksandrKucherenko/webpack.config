@@ -24,7 +24,13 @@ export const ensureSlash = (inputPath: string, needsSlash: boolean): string => {
   return inputPath;
 };
 
-export const pathname = (url?: string, fallback: string = "/") => (url ? new URL(url).pathname : fallback);
+export const pathname = (url?: string, fallback: string = "/") => {
+  try {
+    return url ? new URL(url).pathname : fallback;
+  } catch (ignored) {
+    return fallback;
+  }
+};
 
 type Stringified = {
   "process.env": Record<string, string>;

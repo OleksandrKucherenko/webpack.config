@@ -27,9 +27,14 @@ export const configWithPreset = (preset: Preset, env: ClientEnvironment): webpac
     clean: true, // clean output directory before build
     publicPath: paths.publicUrl,
   },
+  // ref: https://webpack.js.org/configuration/dev-server/
   devServer: {
     compress: true,
     http2: false, // true - will work only with https
+    proxy: { ...preset.devServerProxy },
+    headers: {
+      "X-Debug-Server": "webpack-dev-server",
+    },
   },
   // watch file changes
   watchOptions: {
@@ -201,7 +206,7 @@ export const configWithPreset = (preset: Preset, env: ClientEnvironment): webpac
     ],
   },
   plugins: [
-    new webpack.ProgressPlugin({ modulesCount: 10000 }),
+    // new webpack.ProgressPlugin(),
     // Makes some environment variables available to the JS code, for example:
     // if (process.env.NODE_ENV === 'production') { ... }. See `./env.js`.
     // It is absolutely essential that NODE_ENV is set to production
@@ -264,24 +269,29 @@ export const configWithPreset = (preset: Preset, env: ClientEnvironment): webpac
 export const environmentConfiguration = (webpackEnv: string): webpack.Configuration => {
   const [isEnvDevelopment, isEnvProduction] = vars.ENVIRONMENTS.map((env) => webpackEnv === env);
 
-  const { development, production, test } = KnownPresets;
-  const preset = isEnvProduction ? production : isEnvDevelopment ? development : test;
-
-  // TODO (olku): compute object with env variables from process.env
   const publicPath = isEnvProduction ? "/websites/service-center-portal/" : "/";
+
+  // compute object with env variables from process.env
   const env = getClientEnvironment(publicPath);
 
-  // dump configuration essentials to terminal
+  // dump configuration essentials to the terminal
   vars.report();
 
   // compose new configuration based on preset
+  const { development, production, test } = KnownPresets;
+  const preset = isEnvProduction ? production : isEnvDevelopment ? development : test;
   const newConfiguration = { ...configWithPreset(preset, env) };
 
   // TODO (olku): customize configuration based on webpackEnv (development, production, etc.)
   newConfiguration.output!.publicPath = publicPath;
 
   // apply measurement plugin if enabled
-  return withSmpMeasuring(newConfiguration);
+  const finalConfiguration = withSmpMeasuring(newConfiguration);
+
+  // dump final configuration to the terminal
+  debug("final configuration: %O", finalConfiguration);
+
+  return finalConfiguration;
 };
 
 export default environmentConfiguration;

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 tm=$(date +%Y_%m_%d_%H_%M_%S)
-config="tsconfig.old.json"
+config="tsconfig.json"
 
 echo "Step 1/3: dump configuration to ./tsc.$tm.log"
 
