@@ -54,6 +54,8 @@
 
 ### [0013-proxy-configuration-support](./doc/adr/0013-proxy-configuration-support.md)
 
+![image](https://github.com/OleksandrKucherenko/webpack.config/assets/6419758/03a78b2a-640c-4e90-957f-2618e8e16d0d)
+
 ```mermaid
 graph LR;
   A[React App] --> P[Webpack\nDev Server\nProxy];
@@ -73,4 +75,4 @@ graph LR;
 - [ ] Support EsLint
 - [ ] Support Prettier
 - [ ] Support browserslist
-- [ ] Compose manifest file for the project
+- [ ] Compose a manifest file for the project
