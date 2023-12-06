@@ -14,6 +14,10 @@
     - [0008-enable-svg-and-fonts-support](#0008-enable-svg-and-fonts-support)
     - [0009-enable-css-styles-support](#0009-enable-css-styles-support)
     - [0010-collect-metrics-of-the-webpack-configuration](#0010-collect-metrics-of-the-webpack-configuration)
+    - [0011-enable-esbuild-and-environment-variables-injection](#0011-enable-esbuild-and-environment-variables-injection)
+    - [0012-customize-html-file-creation](#0012-customize-html-file-creation)
+    - [0013-proxy-configuration-support](#0013-proxy-configuration-support)
+  - [TODO](#todo)
 
 ## Tools
 
@@ -43,3 +47,30 @@
 ### [0009-enable-css-styles-support](./doc/adr/0009-enable-css-styles-support.md)
 
 ### [0010-collect-metrics-of-the-webpack-configuration](./doc/adr/0010-collect-metrics-of-the-webpack-configuration.md)
+
+### [0011-enable-esbuild-and-environment-variables-injection](./doc/adr/0011-enable-esbuild-and-environment-variables-injection.md)
+
+### [0012-customize-html-file-creation](./doc/adr/0012-customize-html-file-creation.md)
+
+### [0013-proxy-configuration-support](./doc/adr/0013-proxy-configuration-support.md)
+
+```mermaid
+graph LR;
+  A[React App] --> P[Webpack\nDev Server\nProxy];
+  P -->|`/api` ~> `https://localhost:8280`| B[Mocks Server\nport: 8280, 9280];
+  B -->|HTTP| C[Json Server\nport:8282];
+  C -.->|HTTP| B;
+  B -.->|HTTPS| A;
+```
+
+## TODO
+
+- [x] Inject environment variables `REACT_APP_*`
+- [x] Define environment variables into webpack
+- [x] Support proxy configuration for Dev Server
+- [ ] Support Jest
+- [ ] Support Cypress
+- [ ] Support EsLint
+- [ ] Support Prettier
+- [ ] Support browserslist
+- [ ] Compose manifest file for the project
