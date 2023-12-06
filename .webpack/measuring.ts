@@ -1,11 +1,9 @@
 import webpack from "webpack";
 import SpeedMeasurePlugin from "speed-measure-webpack-plugin";
+import { IndexedPlugin } from "./types";
 
 // listening to those env variables
 const envMeasure = process.env.MEASURE;
-
-type Flatten<Type> = Type extends Array<infer Item> ? Item : Type;
-type IndexedPlugin = { index: number; plugin: Flatten<webpack.Configuration["plugins"]> };
 
 export const omitPlugins = (configuration: webpack.Configuration, ...names: string[]): IndexedPlugin[] => {
   const { plugins } = configuration;

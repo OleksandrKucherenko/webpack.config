@@ -10,15 +10,17 @@ import { VanillaExtractPlugin } from "@vanilla-extract/webpack-plugin";
 import * as vars from "./constants";
 import { paths } from "./paths";
 import { createEnvironmentHash } from "./utils";
-import { KnownPresets, type Preset } from "./presets";
+import { KnownPresets } from "./presets";
 import { withSmpMeasuring } from "./measuring";
 import { aliases } from "./aliases";
 import { chunkGroups } from "./chunks";
-import { getClientEnvironment, type ClientEnvironment } from "./env";
+import { getClientEnvironment } from "./env";
+
+import type { WebpackCliArgs, AppEnvironment, Preset } from "./types";
 
 const debug = Debug("webpack:config");
 
-export const configWithPreset = (preset: Preset, env: ClientEnvironment): webpack.Configuration => ({
+export const configWithPreset = (preset: Preset, env: AppEnvironment): webpack.Configuration => ({
   entry: paths.appIndexJs,
   output: {
     path: paths.appBuild,
@@ -265,9 +267,9 @@ export const configWithPreset = (preset: Preset, env: ClientEnvironment): webpac
   },
 });
 
-// TODO (olku): which type should be used here?
-export const environmentConfiguration = (webpackEnv: string): webpack.Configuration => {
-  const [isEnvDevelopment, isEnvProduction] = vars.ENVIRONMENTS.map((env) => webpackEnv === env);
+export const environmentConfiguration = (webpackEnv: WebpackCliArgs): webpack.Configuration => {
+  const [isEnvDevelopment, isEnvProduction] = vars.ENVIRONMENTS.map((env) => webpackEnv[env]);
+  if (!isEnvDevelopment && !isEnvProduction) throw new Error(vars.ERROR_NO_ENV_FLAGS);
 
   const publicPath = isEnvProduction ? "/websites/service-center-portal/" : "/";
 

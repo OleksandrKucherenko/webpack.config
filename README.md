@@ -63,6 +63,8 @@ graph LR;
   B -.->|HTTPS| A;
 ```
 
+### [0014-cjs-and-esm-modules-mix](./doc/adr/0014-cjs-and-esm-modules-mix.md)
+
 ## TODO
 
 - [x] Inject environment variables `REACT_APP_*`

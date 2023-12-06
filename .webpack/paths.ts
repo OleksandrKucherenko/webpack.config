@@ -1,14 +1,11 @@
 import path from "node:path";
 
-import type { PackageJson } from "type-fest";
+import { ensureSlash, pathname } from "./utils";
+import { envPublicUrl, envTsConfig } from "./env";
+import type { PackageJson } from "./types";
 
 import packageJsonRaw from "../package.json";
-import { ensureSlash, pathname } from "./utils";
 const packageJson: PackageJson = packageJsonRaw;
-
-// listening to those env variables
-const envPublicUrl = process.env.PUBLIC_URL;
-const envTsConfig = process.env.TS_NODE_PROJECT;
 
 export const paths = {
   dotenv: path.resolve(__dirname, "..", ".env"),
@@ -26,19 +23,19 @@ export const paths = {
   appIndexJs: path.resolve(__dirname, "..", "src/index.tsx"),
   appPackageJson: path.resolve(__dirname, "..", "package.json"),
   appSrc: path.resolve(__dirname, "..", "src"),
-  appTsConfig: envTsConfig || path.resolve(__dirname, "..", "tsconfig.json"),
+  appTsConfig: envTsConfig() || path.resolve(__dirname, "..", "tsconfig.json"),
   appJsConfig: path.resolve(__dirname, "..", "jsconfig.json"),
   yarnLockFile: path.resolve(__dirname, "..", "yarn.lock"),
   testsSetup: path.resolve(__dirname, "..", "config", "setupTests.ts"),
   proxySetup: path.resolve(__dirname, "..", "mocks", "setupProxy.ts"),
   appNodeModules: path.resolve(__dirname, "..", "node_modules"),
   swSrc: path.resolve(__dirname, "..", "src/service-worker.ts"),
-  publicUrl: envPublicUrl || packageJson?.homepage || "/",
+  publicUrl: envPublicUrl() || packageJson?.homepage || "/",
   // We use `PUBLIC_URL` environment variable or "homepage" field to infer
   // "public path" at which the app is served.
   // Webpack needs to know it to put the right <script> hrefs into HTML even in
   // single-page apps that may serve index.html for nested URLs like /todos/42.
   // We can't use a relative path in HTML because we don't want to load something
   // like /todos/42/static/js/bundle.7289d.js. We have to know the root.
-  servedPath: ensureSlash(envPublicUrl || pathname(packageJson?.homepage), true),
+  servedPath: ensureSlash(envPublicUrl() || pathname(packageJson?.homepage), true),
 } as const;

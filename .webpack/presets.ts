@@ -1,32 +1,13 @@
 import Debug from "debug";
 
-import type { Configuration as DevServerConfiguration } from "webpack-dev-server";
+import type { Preset, Presets } from "./types";
 
 import * as vars from "./constants";
 
-const proxyD = Debug("webpack-dev-server:proxy");
+const dbgProxy = Debug("webpack-dev-server:proxy");
 
 // alway keep proxy logs enabled
-Debug.enable(proxyD.namespace);
-
-export type Preset = {
-  name: vars.NodeEnv;
-  tsLoaderOptions?: any;
-  esbuildLoaderOptions?: any;
-  htmlPluginOptions?: any;
-  miniCssExtractPluginOptions?: any;
-  miniCssExtractLoaderOptions?: any;
-  cssMinimizerPluginOptions?: any;
-  modulesCssLoaderOptions?: {
-    modules: any;
-  };
-  postcssLoaderOptions?: {
-    postcssOptions: any;
-  };
-  devServerProxy?: DevServerConfiguration["proxy"];
-};
-
-export type Presets = Record<vars.NodeEnv, Preset>;
+dbgProxy.enabled = true;
 
 const htmlPluginMinifyOptions = {
   minify: {
@@ -98,10 +79,10 @@ const commons: Partial<Preset> = {
         const { method, protocol, host, path } = pr;
         const transformation = `${req.originalUrl} ~> ${req.url} ~> ${protocol}//${host}:8280${path}`;
         res.setHeader("X-Debug-Proxy", transformation); // inject debug header
-        proxyD("%s %s", method, transformation);
+        dbgProxy("%s %s", method, transformation);
       },
       onError: (err, req, res) => {
-        proxyD("%O", err);
+        dbgProxy("%O", err);
       },
     },
   },
