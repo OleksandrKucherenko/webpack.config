@@ -56,6 +56,9 @@ yarn ts-node scripts/extract.src.dependencies.ts
 
 # test webpack configuration
 yarn build
+
+# refresh types definitions
+npx typesync
 ```
 
 ## Dependencies
@@ -82,3 +85,18 @@ yarn build
 - https://generator.tsconfigdemystified.com/ - `tsconfig.json` online generator
 - https://medium.com/extra-credit-by-guild/tsconfig-json-demystified-d8f333e578c1
 - https://compat-table.github.io/compat-table/es6/
+- https://www.manning.com/books/essential-typescript-5-third-edition
+  - https://github.com/ManningBooks/essential-typescript-5/blob/main/Chapter%2020/reactapp/tsconfig.json
+  - https://github.com/ManningBooks/essential-typescript-5/blob/main/Chapter%2021/End%20of%20Chapter/reactapp/tsconfig.json
+- https://github.com/jeffijoe/typesync
+
+## Debug Module Resolution
+
+```bash
+export NODE_DEBUG=module
+yarn ts-node scripts/extract.src.dependencies.ts
+```
+
+refs:
+
+- https://medium.com/@fengyu214/debugging-nodejs-resolve-algorithm-1a3fd6373c05

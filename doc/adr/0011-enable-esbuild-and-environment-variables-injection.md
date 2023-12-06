@@ -25,4 +25,16 @@ Enable `esbuild-loader` for webpack.
 ### References
 
 - https://medium.com/dailyjs/inserting-variables-into-html-and-javascript-with-webpack-80f33625edc6
--
+- https://github.com/jantimon/html-webpack-plugin#writing-your-own-templates
+
+## Dependencies
+
+```json
+{
+  "devDependencies": {
+    "dotenv": "^16.3.1",
+    "dotenv-expand": "^10.0.0",
+    "esbuild-loader": "^4.0.2"
+  }
+}
+```

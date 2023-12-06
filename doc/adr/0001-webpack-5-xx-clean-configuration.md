@@ -32,3 +32,7 @@ configuration will require multiple iterations, before it becomes a replacer for
   }
 }
 ```
+
+## References
+
+- https://github.com/facebook/create-react-app/blob/v5.0.1/packages/react-scripts/config/webpack.config.js
