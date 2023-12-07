@@ -4,19 +4,31 @@
 
 ```mermaid
 graph LR;
-    Z[yarn package.json] --> A[Webpack-CLI]
+    Z[yarn package.json] --> A([Webpack-CLI])
     A --> B[.webpack/webpack.config.ts]
-    A --> T[./tsconfig.json] --> T1[TypeScript/TSC configuration]
-    B --> I[./paths.ts] --> H1[Extract/resolve path's for webpack]
-    B --> D[./constants.ts] --> D1[Dirs, files, Path's, etc.]
-    B --> H[./env.ts] --> H1[Extract Environment variables\nfor React App and Webpack]
-    B --> C[./presets.ts] --> C1[Production, Development, Tests presets]
-    B --> E[./aliases.ts] --> E1[Aliases for paths, \nsearch paths component \nby shorter names]
-    B --> F[./chunks.ts] --> F1[Chunks definitions for webpack]
-    B --> G[./measuring.ts] --> G1[Speed Measuring Plugin for webpack]
-    B --> U[./utils.ts] --> U1[Utility functions]
+    A --> T[./tsconfig.json]
+    B --> I[./paths.ts]
+    B --> D[./constants.ts]
+    B --> H[./env.ts]
+    B --> C[./presets.ts]
+    B --> E[./aliases.ts]
+    B --> F[./chunks.ts]
+    B --> G[./measuring.ts]
+    B --> U[./utils.ts]
     C --> D
     D --> I
+    I --> H
+    D --> H
+    %% Comments
+    T -.-> T1([TypeScript/TSC configuration])
+    I -.-> I1([Extract/resolve path's for webpack])
+    D -.-> D1([Dirs, files, Path's, etc.])
+    H -.-> H1([Extract Environment variables\nfor React App and Webpack])
+    C -.-> C1([Production, Development, Tests presets])
+    E -.-> E1([Aliases for paths, \nsearch paths component \nby shorter names])
+    F -.-> F1([Chunks definitions for webpack])
+    G -.-> G1([Speed Measuring Plugin for webpack])
+    U -.-> U1([Utility functions])
 ```
 
 ## Expectations

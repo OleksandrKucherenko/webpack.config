@@ -1,14 +1,14 @@
 import Debug from "debug";
 import { paths } from "./paths";
+import { envInlineSize } from "./env";
+import type { NodeEnv } from "./types";
 
 const debug = Debug("webpack:config");
 
-// listening to those env variables
-const envInlineSize = process.env.IMAGE_INLINE_SIZE_LIMIT;
-
-export type NodeEnv = "development" | "production" | "test";
 export const ENVIRONMENTS: NodeEnv[] = ["development", "production"];
-export const ENV_FALLBACK = "development";
+export const ERROR_NO_ENV_FLAGS =
+  "No environment flags were provided. " +
+  "Please provide one of the following: `--env development` OR `--env production`";
 
 export const BUNDLE_OUTPUT_FILENAME = "[name].[contenthash].js";
 export const BUNDLE_ASSETS_FILENAME = "static/media/[name].[hash][ext]";
@@ -18,9 +18,7 @@ export const BUNDLE_CSS_CHUNK_FILENAME = "static/css/[name].[contenthash].chunk.
 export const BUNDLE_CSS_LOCAL_INDENT_NAME = "[path][name]__[local]--[hash:base64:5]";
 
 export const INLINE_SIZE_LIMIT = 10 * 1024;
-export const MAX_INLINED_ASSET_SIZE = parseInt(envInlineSize || `${INLINE_SIZE_LIMIT}`);
-
-export const ERROR_NODE_ENV = "The NODE_ENV environment variable is required but was not specified.";
+export const MAX_INLINED_ASSET_SIZE = parseInt(envInlineSize() || `${INLINE_SIZE_LIMIT}`);
 
 export const report = () => {
   // Dump important configuration values

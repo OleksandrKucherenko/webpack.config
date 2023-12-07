@@ -20,10 +20,18 @@ start from scratch, based only on tools documentation, collect as much as possib
 
 configuration will require multiple iterations, before it becomes a replacer for webpack 4.xx config
 
+Critical:
+
+- provide `--env production` and `--env development` to webpack cli
+
 ## Dependencies
 
 ```json
 {
+  "scripts": {
+    "build": "NODE_ENV=production webpack --env production",
+    "start": "NODE_ENV=development webpack serve --env development --open"
+  },
   "devDependencies": {
     "cross-env": "^7.0.3",
     "webpack": "^5.89.0",

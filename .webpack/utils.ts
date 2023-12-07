@@ -1,6 +1,5 @@
 import { createHash } from "node:crypto";
-
-type Env = Partial<Record<string, string | undefined | null>>;
+import type { Defined, Env, Stringified } from "./types";
 
 export const createEnvironmentHash = (env: Env) => {
   const hash = createHash("md5");
@@ -32,17 +31,13 @@ export const pathname = (url?: string, fallback: string = "/") => {
   }
 };
 
-type Stringified = {
-  "process.env": Record<string, string>;
-};
-
 // Stringify all values so we can feed into Webpack DefinePlugin
-export const stringify = (raw: Record<string, string | undefined>): Stringified => {
+export const stringify = (raw: Env): Stringified => {
   // NOTE (olku): `raw[key]` can contain an `undefined` value
   const inJson = Object.keys(raw).reduce((env, key) => ({ ...env, [key]: JSON.stringify(raw[key]) }), {});
 
   return { "process.env": inJson };
 };
 
-export const define = (raw: Record<string, string | undefined>) =>
+export const define = (raw: Env): Defined =>
   Object.keys(raw).reduce((env, key) => ({ ...env, [`process.env.${key}`]: JSON.stringify(raw[key]) }), {});

@@ -8,11 +8,11 @@
   "proxy": "http://localhost:8282",
   "scripts": {
     "cleanup:smart": "rimraf dist/*.js dist/*.txt",
-    "build": "NODE_ENV=production webpack",
+    "build": "NODE_ENV=production webpack --env production",
     "build:tsc:log": "scripts/build_tsc_with_logs.sh",
     "measure:build": "NODE_ENV=production MEASURE=1 webpack",
     "build:tsc": "NODE_ENV=production tsc --noEmit --listFiles --listEmittedFiles",
-    "start": "NODE_ENV=development webpack serve --open",
+    "start": "NODE_ENV=development webpack serve --env development --open",
     "start:production": "NODE_ENV=production webpack serve --open",
     "test": "echo \"Error: no test specified\" && exit 1",
     "verify:tsc:config": "NODE_ENV=production tsc --showConfig",
@@ -42,7 +42,7 @@
     "dotenv": "^16.3.1",
     "dotenv-expand": "^10.0.0",
     "esbuild-loader": "^4.0.2",
-    "glob": "^10.3.10",
+    "glob": "^7.0.0",
     "html-webpack-plugin": "^5.5.3",
     "mini-css-extract-plugin": "^2.7.6",
     "patch-package": "^8.0.0",
@@ -72,5 +72,11 @@
     "@vanilla-extract/css": "^1.14.0",
     "react": "^17.0.0",
     "react-dom": "^17.0.0"
+  },
+  "@comments resolutions": {
+    "glob": "^7.xx - this is the last known version of the package that does not break the string-width, strip-ansi and wrap-ansi packages. Keep them CJM instead of ESM."
+  },
+  "resolutions": {
+    "glob": "^7.1.7"
   }
 }

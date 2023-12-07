@@ -1,20 +1,16 @@
-import { Configuration } from 'webpack'
-
-type Optimization = NonNullable<Configuration['optimization']>
-type SplitChunks = Exclude<Optimization['splitChunks'], false | undefined>
-type CacheGroup = NonNullable<SplitChunks['cacheGroups']>
+import { CacheGroup } from "./types";
 
 export const chunkGroups: CacheGroup = {
   default: false,
   bubble: {
-    name: 'bubble',
+    name: "bubble",
     test: /\/(@klarna\/bubble-ui|@bubble-ui|@bubble-contrib)\//,
     enforce: true,
-    chunks: 'all',
+    chunks: "all",
   },
   vendor: {
     test: /[\\/]node_modules[\\/]/,
-    name: 'vendors',
-    chunks: 'all',
+    name: "vendors",
+    chunks: "all",
   },
-}
+};
