@@ -43,6 +43,31 @@ mocks/scripts/extract.url.sh ./mocks/fixtures/16b19ff8-640f-4489-af03-9adff0e902
 mocks/scripts/export.har.ts ./mocks/fixtures/16b19ff8-640f-4489-af03-9adff0e902da/recorded.har
 ```
 
+```text
+  export:har processing file: './mocks/fixtures/16b19ff8-640f-4489-af03-9adff0e902da/recorded.har' +0ms
+  export:har include failed entries: true +1ms
+  export:har enabled debug info: false +0ms
+  export:har total HAR entries: 133 +198ms
+  export:har source url: https://example.com/server +1ms
+  export:har "application/json" entries: 85 +1ms
+  export:har searching for unique entries... +0ms
+  export:har detected repeated entries: 37 +9ms
+  export:har mapped entries: 48 +24ms
+  export:har output mapping file: "./mocks/fixtures/16b19ff8-640f-4489-af03-9adff0e902da/mapping.json" +0ms
+
+./mocks/scripts/export.har.ts --help
+export.har.ts <file>
+
+Converts a HAR (Html ARchive) file to a collection of JSON files
+
+Options:
+  --file     HAR file to convert                             [string] [required]
+  --failed   extract failed entries                    [boolean] [default: true]
+  --debug    enable debug logs                        [boolean] [default: false]
+  --version  Show version number                                       [boolean]
+  --help     Show help                                                 [boolean]
+```
+
 ## Data Extraction
 
 ```bash

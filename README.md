@@ -17,6 +17,7 @@
     - [0011-enable-esbuild-and-environment-variables-injection](#0011-enable-esbuild-and-environment-variables-injection)
     - [0012-customize-html-file-creation](#0012-customize-html-file-creation)
     - [0013-proxy-configuration-support](#0013-proxy-configuration-support)
+    - [0014-cjs-and-esm-modules-mix](#0014-cjs-and-esm-modules-mix)
   - [TODO](#todo)
 
 ## Tools
@@ -64,6 +65,15 @@ graph LR;
   C -.->|HTTP| B;
   B -.->|HTTPS| A;
 ```
+
+Export HAR to mocks-server collections/routes:
+
+```bash
+# convert HAR file to set of JSON files that mocks-server can automatically load
+mocks/scripts/export.har.ts ./mocks/fixtures/16b19ff8-640f-4489-af03-9adff0e902da/recorded.har
+```
+
+details: [mocks-server](./mocks/scripts/README.md)
 
 ### [0014-cjs-and-esm-modules-mix](./doc/adr/0014-cjs-and-esm-modules-mix.md)
 
