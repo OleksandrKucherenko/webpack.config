@@ -44,7 +44,8 @@ const initialize = (publicPath: string): RawVariables => {
     REACT_APP_CLIENT_ENVIRONMENT: envReactClientEnvironment() ?? ENV_FALLBACK,
   };
 
-  dbgEnv("initials: %O", env);
+  debug("initials: %O", env);
+  dbgEnv('NODE_ENV: "%s", PUBLIC_PATH: "%s"', env.NODE_ENV, env.PUBLIC_PATH);
 
   return env;
 };

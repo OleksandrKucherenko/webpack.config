@@ -1,0 +1,5 @@
+# recorded Html Archives, they can be HUGE in size >40Mb
+*.har
+
+# Out temporary test directory
+16b19ff8-640f-4489-af03-9adff0e902da/

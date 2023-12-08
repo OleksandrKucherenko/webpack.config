@@ -1,7 +1,4 @@
-import querystring from "querystring";
-
 export const routes = [
-  // fallback everything else, proxy to localhost:9000
   {
     id: "do-proxy",
     url: "*",
@@ -25,7 +22,9 @@ export const routes = [
           host: "https://websites-gateway.nonprod.eu1.klear.klarna.net/api/sc-portal",
           // ref: https://github.com/villadora/express-http-proxy/issues/11
           options: {
-            userResHeaderDecorator: () => ({ "Access-Control-Allow-Origin": "*" }), // CORS
+            userResHeaderDecorator: () => ({
+              "Access-Control-Allow-Origin": "*",
+            }), // CORS
           },
         },
       },

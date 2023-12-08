@@ -4,14 +4,20 @@
   "license": "UNLICENSED",
   "scripts": {
     "start:dev": "concurrently --kill-others --prefix-colors 'blue,green' \"npm:dev:*\"",
-    "dev:mocks": "mocks-server --server.port 8280 --plugins.adminApi.port 9280",
+    "start:mocks": "mocks-server --server.port 8280 --plugins.adminApi.port 9280",
+    "dev:mocks": "CI=1 mocks-server --server.port 8280 --plugins.adminApi.port 9280",
     "dev:sjson": "json-server --watch ./jsrv.mocks.json --routes ./jsrv.routes.json --port 8282"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.23.5",
     "@babel/preset-typescript": "^7.23.3",
     "@mocks-server/main": "^4.1.0",
+    "@types/babel__preset-env": "^7.9.6",
+    "@types/glob": "^7.2.0",
+    "@types/har-format": "^1.2.15",
+    "@types/json-server": "^0.14.7",
     "concurrently": "^8.2.2",
+    "glob": "^7.0.0",
     "json-server": "^0.17.4"
   }
 }

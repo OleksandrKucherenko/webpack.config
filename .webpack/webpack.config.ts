@@ -268,8 +268,9 @@ export const configWithPreset = (preset: Preset, env: AppEnvironment): webpack.C
 });
 
 export const environmentConfiguration = (webpackEnv: WebpackCliArgs): webpack.Configuration => {
-  const [isEnvDevelopment, isEnvProduction] = vars.ENVIRONMENTS.map((env) => webpackEnv[env]);
-  if (!isEnvDevelopment && !isEnvProduction) throw new Error(vars.ERROR_NO_ENV_FLAGS);
+  const isConfigTest = process.argv.includes("configtest");
+  const [isEnvDevelopment, isEnvProduction] = vars.ENVIRONMENTS.map((env) => Boolean(webpackEnv?.[env]));
+  if (!isEnvDevelopment && !isEnvProduction && !isConfigTest) throw new Error(vars.ERROR_NO_ENV_FLAGS);
 
   const publicPath = isEnvProduction ? "/websites/service-center-portal/" : "/";
 
