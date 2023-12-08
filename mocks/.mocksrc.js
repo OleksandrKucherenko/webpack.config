@@ -29,7 +29,7 @@ module.exports = {
     },
     inquirerCli: {
       // Start interactive CLI or not
-      enabled: false,
+      enabled: process.env.CI === "1" ? false : process.stdout.isTTY,
       // Render emojis or not
       emojis: true,
     },
@@ -49,7 +49,8 @@ module.exports = {
     },
     collections: {
       // Selected collection
-      selected: "mocks-base",
+      // selected: "mocks-base",
+      selected: "har:16b19ff8-640f-4489-af03-9adff0e902da",
     },
   },
   server: {
