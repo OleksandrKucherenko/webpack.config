@@ -15,7 +15,7 @@ Required support of the developer environment where all the requests redirected 
 - [x] install `mocks-server` as a tool in own folder. In case of adding mock-server to the root project dependencies, will be a conflict between CJS and ESM modules.
   - [x] BUN can run `mocks-server` event with a conflict `bun --bun mock-server`
   - [x] Node raise the error `Error [ERR_REQUIRE_ESM]: require() of ES Module ... from ... not supported.` Any attempts to bypass it does not work.
-  - [x] mock-server installed as a sub-project, with own `node_modules``, and own package.json In this case Node execute server without any issues.
+  - [x] mock-server installed as a sub-project, with own `node_modules`, and own package.json In this case Node execute server without any issues.
 - [x] installed `json-server` as a developer server that supports GET, POST, PUT, PATCH, DELETE and OPTIONS.
 - [x] installed `mkcert` as a tool for creating certificates for localhost.
 - [x] `mocks-server` configured to use self-signed certificates, so we can try HTTPS calls from the client side.
